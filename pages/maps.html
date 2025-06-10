@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 인터랙티브 지도 | Google Maps | 제주도 관광 가이드</title>
+    <meta name="description" content="Google Maps API를 활용한 제주도 인터랙티브 지도. 42개 관광지 위치 확인, 검색, 길찾기 서비스 제공.">
+    <meta name="keywords" content="제주도 지도, 구글맵, Google Maps, 관광지 지도, 제주 여행 지도, 인터랙티브 지도">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="제주도 인터랙티브 지도">
+    <meta property="og:description" content="Google Maps API로 구현한 제주도 관광지 지도 서비스">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://goodfaceai.dothome.co.kr/pages/maps.html">
+    
+    <!-- 파비콘 -->
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- 외부 라이브러리 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 스타일시트 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/google-maps.css">
+    
+    <!-- 구조화된 데이터 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "제주도 인터랙티브 지도",
+        "description": "Google Maps API를 활용한 제주도 관광지 지도 서비스",
+        "url": "http://goodfaceai.dothome.co.kr/pages/maps.html",
+        "mainEntity": {
+            "@type": "Map",
+            "name": "제주도 관광지 지도",
+            "description": "42개 제주도 관광지 위치 정보 제공"
+        },
+        "provider": {
+            "@type": "Organization",
+            "name": "Google Maps",
+            "url": "https://maps.google.com"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">
+                    <i class="fas fa-mountain"></i>
+                    <span>제주도 여행</span>
+                </a>
+            </div>
+            
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="attractions.html">관광명소</a></li>
+                    <li><a href="restaurants.html">맛집</a></li>
+                    <li><a href="hotels.html">숙박</a></li>
+                    <li><a href="info.html">여행정보</a></li>
+                    <li><a href="weather.html">날씨</a></li>
+                    <li><a href="maps.html" class="active">지도</a></li>
+                    <li><a href="search.html">검색</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main">
+        <!-- 히어로 섹션 -->
+        <section class="hero-section maps-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    제주도 인터랙티브 지도
+                </h1>
+                <p class="hero-subtitle">
+                    브이월드 API로 구현한 고해상도 지도에서 42개 관광지를 탐험해보세요
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">관광지</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">지역</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3D</div>
+                        <div class="stat-label">지도 지원</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 브이월드 지도 섹션 -->
+        <section class="vworld-map-section">
+            <div class="vworld-map-container">
+                <!-- 지도 컨트롤 패널 -->
+                <div class="map-controls">
+                    <div class="map-controls-grid">
+                        <!-- 검색 컨트롤 -->
+                        <div class="map-search-control">
+                            <input type="text" id="map-search-input" class="map-search-input" 
+                                   placeholder="관광지, 맛집, 숙박시설 검색...">
+                            <button id="map-search-button" class="map-search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <!-- 검색 결과 -->
+                            <div id="search-results" class="search-results"></div>
+                        </div>
+
+                        <!-- 테마 필터 -->
+                        <div id="theme-filters" class="theme-filters">
+                            <!-- 동적으로 생성됩니다 -->
+                        </div>
+
+                        <!-- 지도 액션 버튼 -->
+                        <div class="map-actions">
+                            <button id="current-location-btn" class="map-action-btn" title="현재 위치">
+                                <i class="fas fa-location-arrow"></i>
+                            </button>
+                            <button id="map-refresh-btn" class="map-action-btn" title="새로고침">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button id="map-fullscreen-btn" class="map-action-btn" title="전체화면">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 구글맵 지도 컨테이너 -->
+                <div id="google-map" class="google-map-container">
+                    <!-- 구글맵이 여기에 로드됩니다 -->
+                    <div id="loading-indicator" class="map-loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Google Maps 로딩 중...</div>
+                    </div>
+                </div>
+                
+                <!-- 지도 컨트롤 패널 -->
+                <div class="map-controls">
+                    <!-- 검색 컨트롤 -->
+                    <div class="search-control">
+                        <div class="search-input-group">
+                            <input type="text" id="address-search" placeholder="주소나 관광지명을 입력하세요..." />
+                            <button id="search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 레이어 변경 컨트롤 -->
+                    <div class="layer-control">
+                        <h4>지도 종류</h4>
+                        <div class="layer-buttons">
+                            <button class="layer-button active" data-layer="base">일반지도</button>
+                            <button class="layer-button" data-layer="satellite">위성지도</button>
+                            <button class="layer-button" data-layer="hybrid">하이브리드</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 카테고리 필터 -->
+                    <div class="category-control">
+                        <h4>관광지 필터</h4>
+                        <div class="category-filters">
+                            <button class="category-filter active" data-category="all">전체</button>
+                            <button class="category-filter" data-category="nature">자연명소</button>
+                            <button class="category-filter" data-category="restaurant">맛집</button>
+                            <button class="category-filter" data-category="hotel">숙박</button>
+                            <button class="category-filter" data-category="culture">문화유산</button>
+                            <button class="category-filter" data-category="beach">해변</button>
+                            <button class="category-filter" data-category="cave">동굴</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 정보 패널 -->
+                <div class="map-info-panel">
+                    <div id="info-panel">
+                        <!-- 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+                
+                <!-- 지도 도구 모음 -->
+                <div class="map-tools">
+                    <button class="tool-button" id="current-location-button">
+                        <i class="fas fa-location-arrow"></i>
+                        내 위치
+                    </button>
+                    <button class="tool-button" id="reset-map-button">
+                        <i class="fas fa-refresh"></i>
+                        지도 초기화
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 지도 가이드 섹션 -->
+        <section class="map-guide-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    지도 사용 가이드
+                </h2>
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>검색하기</h3>
+                        <p>관광지 이름이나 키워드를 입력하여 원하는 장소를 빠르게 찾을 수 있습니다.</p>
+                        <ul>
+                            <li>관광지명 직접 검색</li>
+                            <li>카테고리별 키워드 검색</li>
+                            <li>실시간 검색 제안</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <h3>테마별 필터</h3>
+                        <p>관심 있는 테마별로 마커를 필터링하여 원하는 정보만 확인할 수 있습니다.</p>
+                        <ul>
+                            <li>자연 관광 (산, 해변, 동굴)</li>
+                            <li>문화 관광 (역사, 전통)</li>
+                            <li>맛집 (향토음식, 카페)</li>
+                            <li>숙박시설 (호텔, 펜션)</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <h3>마커 클릭</h3>
+                        <p>지도의 마커를 클릭하면 해당 장소의 상세 정보를 확인할 수 있습니다.</p>
+                        <ul>
+                            <li>상세 정보 및 평점</li>
+                            <li>연락처 및 운영시간</li>
+                            <li>길찾기 및 웹사이트</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <i class="fas fa-location-arrow"></i>
+                        </div>
+                        <h3>현재 위치</h3>
+                        <p>GPS를 활용하여 현재 위치를 확인하고 주변 관광지를 추천받을 수 있습니다.</p>
+                        <ul>
+                            <li>실시간 위치 표시</li>
+                            <li>주변 관광지 자동 검색</li>
+                            <li>거리 정보 제공</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>제주도 여행 가이드</h3>
+                <p>브이월드 API로 구현한 정확하고 신뢰성 있는 제주도 지도 서비스</p>
+                <div class="social-links">
+                    <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="트위터"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>바로가기</h4>
+                <ul class="footer-links">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="attractions.html">관광명소</a></li>
+                    <li><a href="restaurants.html">맛집</a></li>
+                    <li><a href="hotels.html">숙박</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>지도 서비스</h4>
+                <ul class="footer-links">
+                    <li><a href="weather.html">날씨정보</a></li>
+                    <li><a href="maps.html">인터랙티브 지도</a></li>
+                    <li><a href="#" onclick="window.jejuMaps?.resetMap()">지도 새로고침</a></li>
+                    <li><a href="https://maps.google.com" target="_blank">Google Maps</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>기술 정보</h4>
+                <ul class="footer-links">
+                    <li>지도: Google Maps API</li>
+                    <li>관광지: 42개 위치</li>
+                    <li>업데이트: 실시간</li>
+                    <li>지원: Places Library</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; 2025 제주도 여행 가이드. All rights reserved. | 
+                   지도 데이터는 Google Maps API를 통해 제공됩니다.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <!-- 관광지 데이터 (먼저 로드) -->
+    <script src="../js/location-data.js"></script>
+    
+    <!-- 구글맵 지도 엔진 (API 로드 전에 준비) -->
+    <script src="../js/google-maps.js"></script>
+    
+    <!-- 구글맵 API SDK (콜백 함수 준비 후 로드) -->
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs5dJdgT4N9aL3xMEMIjf0nRTpQRxNxx4&callback=initGoogleMap&libraries=places"
+            onerror="console.error('❌ Google Maps API 로드 실패');"
+            onload="console.log('✅ Google Maps API 스크립트 로드 완료');">
+    </script>
+    
+    <!-- 메인 스크립트 -->
+    <script src="../js/script.js"></script>
+    
+    <!-- 지도 초기화 스크립트 -->
+    <script>
+        // 페이지 로드 완료 후 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🗺️ 제주도 Google Maps 지도 페이지 로드 완료');
+            
+            // 지도 리셋 버튼 이벤트
+            const resetButton = document.getElementById('reset-map-button');
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    if (window.jejuMaps) {
+                        window.jejuMaps.resetMap();
+                    }
+                });
+            }
+            
+            // 지도 새로고침 버튼 이벤트
+            const refreshBtn = document.getElementById('map-refresh-btn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const originalClass = icon.className;
+                    
+                    // 로딩 스피너 표시
+                    icon.className = 'fas fa-spinner fa-spin';
+                    this.disabled = true;
+                    
+                    // 구글맵 서비스 새로고침
+                    if (window.jejuMaps) {
+                        window.jejuMaps.resetMap();
+                    }
+                    
+                    // 3초 후 원래 상태로 복구
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                        this.disabled = false;
+                    }, 3000);
+                });
+            }
+
+            // 전체화면 버튼 이벤트
+            const fullscreenBtn = document.getElementById('map-fullscreen-btn');
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', function() {
+                    const mapContainer = document.getElementById('google-map-container');
+                    if (mapContainer) {
+                        if (mapContainer.requestFullscreen) {
+                            mapContainer.requestFullscreen();
+                        } else if (mapContainer.webkitRequestFullscreen) {
+                            mapContainer.webkitRequestFullscreen();
+                        } else if (mapContainer.msRequestFullscreen) {
+                            mapContainer.msRequestFullscreen();
+                        }
+                    }
+                });
+            }
+
+            // 페이지 로드 완료 메시지
+            console.log('📍 42개 관광지 위치 데이터 준비 완료');
+            console.log('🌐 Google Maps API 연동 준비 완료');
+        });
+
+        // 성능 모니터링
+        window.addEventListener('load', function() {
+            // 페이지 로드 시간 측정
+            const loadTime = performance.now();
+            console.log(`⚡ 페이지 로드 시간: ${Math.round(loadTime)}ms`);
+
+            // 지도 로드 상태 확인
+            setTimeout(() => {
+                if (window.jejuMaps && window.jejuMaps.map) {
+                    console.log('✅ Google Maps 로드 성공');
+                } else {
+                    console.warn('⚠️ Google Maps 로드 지연 또는 실패');
+                }
+            }, 5000);
+        });
+
+        // 오류 처리
+        window.addEventListener('error', function(e) {
+            console.error('❌ 페이지 오류:', e.error);
+        });
+
+        // 서비스 워커 등록 (PWA 준비)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // 향후 PWA 서비스 워커 등록 예정
+                console.log('📱 PWA 서비스 워커 준비 완료');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,799 @@
+/**
+ * 제주도 대중교통 정보 페이지 스타일 (1/3)
+ * 기본 변수 및 전역 스타일
+ * 작성일: 2025년 6월 8일
+ */
+
+/* CSS 변수 정의 */
+:root {
+    --transport-primary: #1e3a8a;
+    --transport-secondary: #3b82f6;
+    --transport-accent: #06b6d4;
+    --transport-success: #10b981;
+    --transport-warning: #f59e0b;
+    --transport-danger: #ef4444;
+    
+    --transport-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+    --flight-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --bus-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    --traffic-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    
+    --glass-background: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-backdrop: blur(20px);
+    
+    --transport-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 글로벌 스타일 */
+.transport-page {
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+    line-height: 1.6;
+    color: #1f2937;
+    background: var(--transport-gradient);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.transport-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes float {
+    0%, 100% { opacity: 0.5; transform: translateY(0px); }
+    50% { opacity: 0.8; transform: translateY(-10px); }
+}
+
+/* 컨테이너 */
+.transport-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* 헤더 */
+.transport-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: slideInDown 1s ease-out;
+}
+
+.transport-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.transport-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+/* 컨트롤 패널 */
+.transport-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background: var(--glass-background);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-backdrop);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transport-transition);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* 탭 네비게이션 */
+.transport-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop);
+    border-radius: 15px;
+    padding: 0.5rem;
+    border: 1px solid var(--glass-border);
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transport-transition);
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.tab-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 콘텐츠 및 카드 스타일 */
+.transport-content {
+    display: grid;
+    gap: 2rem;
+}
+
+.content-section {
+    display: none;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.transport-card {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: var(--transport-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.transport-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--transport-gradient);
+}
+
+.transport-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* 항공편 섹션 */
+.flight-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.flight-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+}
+
+.flight-card::before {
+    background: var(--flight-gradient);
+}
+
+.flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.flight-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.flight-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.flight-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: var(--transport-transition);
+}
+
+.flight-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.flight-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    align-items: center;
+}
+
+.flight-detail {
+    text-align: center;
+}
+
+.flight-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.flight-value {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* 교통량 섹션 */
+.traffic-section {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.traffic-card {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+}
+
+.traffic-card::before {
+    background: var(--traffic-gradient);
+}
+
+.traffic-route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: var(--transport-transition);
+}
+
+.traffic-route:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.route-name {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.traffic-metrics {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.traffic-metric {
+    text-align: center;
+}
+
+.metric-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.traffic-status {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+.status-smooth { background: var(--transport-success); }
+.status-normal { background: var(--transport-warning); }
+.status-heavy { background: var(--transport-danger); }
+
+/* 버스 섹션 */
+.bus-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.bus-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+}
+
+.bus-card::before {
+    background: var(--bus-gradient);
+}
+
+/* 여객선 섹션 */
+.ferry-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.ferry-card {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+.ferry-card::before {
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+}
+
+.ferry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ferry-route {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.ferry-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.ferry-status.normal { background: var(--transport-success); }
+.ferry-status.delayed { background: var(--transport-warning); }
+.ferry-status.cancelled { background: var(--transport-danger); }
+
+.ferry-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ferry-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ferry-schedule {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.schedule-title {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time-item {
+    text-align: center;
+}
+
+.time-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.time-value {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.bus-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.bus-number {
+    background: var(--transport-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-right: 1rem;
+}
+
+.bus-name {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex: 1;
+}
+
+.bus-type {
+    background: var(--transport-accent);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.bus-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.bus-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.bus-stops {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.stops-title {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.stops-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.stop-item {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.3rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    transition: var(--transport-transition);
+}
+
+.stop-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* 로딩 및 에러 */
+.transport-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .transport-container {
+        padding: 1rem;
+    }
+    
+    .transport-title {
+        font-size: 2rem;
+    }
+    
+    .flight-section,
+    .bus-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .transport-tabs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .traffic-metrics {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* 애니메이션 */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 여객선 전용 스타일 */
+:root {
+    --ferry-primary: #0891b2;
+    --ferry-secondary: #06b6d4;
+    --ferry-accent: #67e8f9;
+    --ferry-gradient: linear-gradient(135deg, #0891b2 0%, #06b6d4 50%, #67e8f9 100%);
+}
+
+.ferry-content {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.ferry-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.ferry-header h3 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.ferry-header h3 i {
+    color: var(--ferry-accent);
+    font-size: 2rem;
+}
+
+.ferry-routes {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.ferry-route-card {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-backdrop);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    transition: var(--transport-transition);
+}
+
+.ferry-route-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.route-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.route-header h4 {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.route-badge {
+    background: var(--ferry-gradient);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.schedule-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.25rem;
+    transition: var(--transport-transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.schedule-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(10px);
+}
+
+.vessel-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.vessel-info strong {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.operator {
+    color: var(--ferry-accent);
+    font-size: 0.9rem;
+    background: rgba(103, 232, 249, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 10px;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.time {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.duration {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 10px;
+}
+
+.fare-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fare {
+    color: var(--ferry-accent);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.status {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-normal {
+    background: var(--transport-success);
+    color: white;
+}
+
+.status-delay {
+    background: var(--transport-warning);
+    color: white;
+}
+
+.status-cancel {
+    background: var(--transport-danger);
+    color: white;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .ferry-route-card {
+        padding: 1rem;
+    }
+    
+    .route-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
+    .vessel-info,
+    .time-info,
+    .fare-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .schedule-item:hover {
+        transform: none;
+    }
+}

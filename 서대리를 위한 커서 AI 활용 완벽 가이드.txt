@@ -1,0 +1,505 @@
+# 서대리를 위한 커서 AI 활용 완벽 가이드
+
+## 👋 서대리 온보딩 가이드
+
+### 🎯 서대리의 역할 정의
+**포지션**: 커서 AI 코딩 전문가 (Cursor AI Coding Specialist)
+**팀**: 조대표(CEO) - 노팀장(PM) - 서대리(개발자) 협업 체계
+**미션**: 노팀장의 지시에 따라 커서 AI를 활용해 고품질 코드 작성
+
+### 🏆 기대 성과
+- V1.0과 동일한 기능을 더 효율적으로 구현
+- 체계적인 커서 AI 활용으로 개발 속도 30-50% 향상
+- 깔끔하고 유지보수 가능한 코드 생산
+- 커서 AI 전문 역량 개발
+
+## 🛠️ 커서 AI 기본 활용법
+
+### 💻 커서 환경 설정
+```bash
+# 1. 프로젝트 폴더 생성
+mkdir jeju-tourism-v2
+cd jeju-tourism-v2
+
+# 2. 기본 폴더 구조 생성
+mkdir css js pages docs images
+
+# 3. 커서에서 프로젝트 열기
+cursor .
+```
+
+### 🎯 효과적인 프롬프트 작성법
+
+#### ✅ 좋은 프롬프트 예시
+```
+"제주도 관광 홈페이지의 메인 페이지를 만들어주세요.
+
+요구사항:
+- 반응형 디자인 (모바일/태블릿/데스크톱)
+- 네비게이션 메뉴: 홈, 관광명소, 맛집, 숙박, 날씨, 교통정보, 지도, 검색
+- 히어로 섹션: 제주도 배경 이미지와 타이틀
+- 주요 카테고리 카드 3개 (관광명소/맛집/숙박)
+- CSS는 별도 파일로 분리
+- 색상: 파란색 계열 (#007bff 기본)
+- 폰트: Noto Sans KR
+"
+```
+
+#### ❌ 피해야 할 프롬프트
+```
+"홈페이지 만들어줘"  // 너무 막연함
+"예쁘게 만들어줘"   // 구체적 기준 없음
+```
+
+### 🔧 단계별 개발 접근법
+
+#### 1️⃣ 기본 구조 먼저
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 관광 가이드</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 구조만 먼저 작성 -->
+</body>
+</html>
+```
+
+#### 2️⃣ CSS 스타일링
+```css
+/* 기본 설정부터 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 그 다음 레이아웃 */
+/* 마지막에 디테일 */
+```
+
+#### 3️⃣ JavaScript 기능
+```javascript
+// 기본 DOM 조작부터
+document.addEventListener('DOMContentLoaded', function() {
+    // 간단한 기능부터 구현
+});
+```
+
+## 📋 교육 중심 덮어쓰기 개발 가이드
+
+### 🎓 혁신적 학습 방식: V1.0 → V2.0 점진적 개선
+
+#### 1단계: 기존 파일 분석 및 학습
+- **현재 파일 확인**: Z:\html\[파일명] (실제 운영 중인 V1.0)
+- **백업 파일 비교**: backupv1.0\[파일명] (참고용 원본)
+- **개선점 파악**: 어떤 부분을 더 깔끔하게 만들 수 있는지 분석
+
+#### 2단계: 커서 AI로 개선 코딩 🌟
+```
+교육적 프로세스:
+1. 기존 V1.0 코드의 구조와 기능을 완전히 이해
+2. 동일한 기능을 더 현대적이고 깔끔한 코드로 작성
+3. 커서 AI를 활용해 효율적으로 개선된 코드 생성
+4. 기존 파일을 개선된 V2.0 코드로 덮어쓰기
+
+핵심 학습 포인트:
+✅ Before & After 비교를 통한 코드 품질 향상
+✅ 실제 운영 환경에서의 즉시 결과 확인
+✅ 단계별 스킬 레벨업 시스템
+```
+
+#### 3단계: 덮어쓰기 저장 및 즉시 검증
+- **덮어쓰기**: 기존 V1.0 파일을 개선된 V2.0으로 교체
+- **자동 반영**: FTP 자동 싱크로 온라인 즉시 업데이트
+- **실시간 확인**: http://goodfaceai.dothome.co.kr에서 즉시 테스트
+
+#### 4단계: 교육 피드백 및 개선
+- 노팀장 + 조대표의 실시간 피드백 수령
+- 추가 개선사항이 있으면 즉시 재작업
+- 동일 파일 재덮어쓰기로 지속적 품질 향상
+
+### 🏆 단계별 교육 커리큘럼
+
+#### 🥉 레벨 1: HTML 구조 개선 (쉬움)
+```
+첫 번째 미션: index.html 개선
+- 기존 HTML 구조 분석
+- 시맨틱 태그로 개선
+- 접근성 향상
+- 코드 정리 및 주석 개선
+
+학습 목표: 기본적인 덮어쓰기 프로세스 습득
+```
+
+#### 🥈 레벨 2: CSS 스타일링 고도화 (보통)
+```
+두 번째 미션: style.css 개선
+- CSS 구조 최적화
+- 변수 시스템 도입
+- 반응형 개선
+- 성능 최적화
+
+학습 목표: 스타일링 품질 대폭 향상
+```
+
+#### 🥇 레벨 3: JavaScript 기능 최적화 (어려움)
+```
+세 번째 미션: 인터랙티브 기능 개선
+- ES6+ 모던 JavaScript 적용
+- 모듈화 및 최적화
+- 에러 처리 강화
+- 성능 개선
+
+학습 목표: 고급 프로그래밍 스킬 습득
+```
+
+#### 🏅 레벨 4: API 연동 마스터 (고급)
+```
+최종 미션: weather.js, accommodation.js 개선
+- API 호출 최적화
+- 에러 처리 고도화
+- 캐싱 시스템 개선
+- 사용자 경험 향상
+
+학습 목표: 풀스택 개발 역량 완성
+```
+
+## 🎨 V1.0 스타일 가이드
+
+### 🌈 색상 시스템
+```css
+:root {
+    /* 메인 컬러 */
+    --primary-color: #007bff;
+    --secondary-color: #28a745;
+    --accent-color: #ffc107;
+    
+    /* 텍스트 */
+    --text-dark: #333;
+    --text-light: #666;
+    --text-muted: #999;
+    
+    /* 배경 */
+    --bg-white: #ffffff;
+    --bg-light: #f8f9fa;
+    --bg-gray: #e9ecef;
+    
+    /* 그라디언트 */
+    --gradient-blue: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    --gradient-green: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+}
+```
+
+### 📱 반응형 브레이크포인트
+```css
+/* 모바일 우선 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 태블릿 */
+@media (min-width: 768px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+/* 데스크톱 */
+@media (min-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+}
+```
+
+### 🎭 컴포넌트 스타일
+```css
+/* 버튼 */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* 카드 */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+```
+
+## 🔗 API 연동 가이드
+
+### 🌤️ 날씨 API 예시
+```javascript
+class WeatherService {
+    constructor() {
+        this.apiKey = 'f778d7297860bfbedb1aca5db5dae290';
+        this.baseUrl = 'https://api.openweathermap.org/data/2.5';
+    }
+    
+    async getWeather(city) {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric&lang=kr`
+            );
+            return await response.json();
+        } catch (error) {
+            console.error('날씨 API 오류:', error);
+            return null;
+        }
+    }
+}
+```
+
+### 🗺️ 지도 API 연동
+```javascript
+function initMap() {
+    const jeju = { lat: 33.4996, lng: 126.5312 };
+    
+    const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: jeju,
+        styles: [/* 커스텀 스타일 */]
+    });
+    
+    // 관광지 마커 추가
+    attractions.forEach(attraction => {
+        new google.maps.Marker({
+            position: attraction.position,
+            map: map,
+            title: attraction.name
+        });
+    });
+}
+```
+
+## 🐛 디버깅 및 문제 해결
+
+### 🔍 일반적인 문제들
+
+#### 1️⃣ CSS가 적용되지 않을 때
+```html
+<!-- 파일 경로 확인 -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- 캐시 문제 해결 -->
+<link rel="stylesheet" href="css/style.css?v=1.0">
+```
+
+#### 2️⃣ JavaScript 오류 해결
+```javascript
+// 항상 DOM 로딩 확인
+document.addEventListener('DOMContentLoaded', function() {
+    // 코드 실행
+});
+
+// 에러 처리 추가
+try {
+    // 위험한 코드
+} catch (error) {
+    console.error('오류 발생:', error);
+}
+```
+
+#### 3️⃣ API 호출 실패
+```javascript
+// CORS 문제 해결
+const proxyUrl = '/proxy.php';
+const apiUrl = `${proxyUrl}?url=${encodeURIComponent(originalUrl)}`;
+
+// 타임아웃 설정
+const controller = new AbortController();
+setTimeout(() => controller.abort(), 10000);
+
+fetch(apiUrl, { signal: controller.signal })
+    .then(response => response.json())
+    .catch(error => console.error('API 오류:', error));
+```
+
+## ✅ 품질 체크리스트
+
+### 📋 제출 전 확인사항
+
+#### HTML 검증
+- [ ] HTML5 시맨틱 태그 사용
+- [ ] 접근성 속성 (alt, aria-label) 추가
+- [ ] 메타 태그 완성 (title, description)
+- [ ] 구조적 마크업 준수
+
+#### CSS 검증
+- [ ] 반응형 디자인 동작 확인
+- [ ] 크로스 브라우저 호환성
+- [ ] 애니메이션 성능 최적화
+- [ ] 색상 대비 접근성 준수
+
+#### JavaScript 검증
+- [ ] 콘솔 에러 없음
+- [ ] 모든 기능 정상 동작
+- [ ] 에러 처리 구현
+- [ ] 성능 최적화 적용
+
+#### 통합 테스트
+- [ ] 모바일 디바이스 테스트
+- [ ] 로딩 속도 확인
+- [ ] SEO 기본 요소 점검
+- [ ] V1.0과 기능 동일성 확인
+
+## 🎯 성과 측정 기준
+
+### 📊 서대리 평가 지표
+
+#### 정량적 지표
+- **개발 속도**: 지시 대비 완료 시간
+- **버그 발생률**: 노팀장 리뷰에서 발견되는 오류 수
+- **코드 품질**: 재사용성, 가독성, 유지보수성
+- **기능 완성도**: 요구사항 대비 구현 완성도
+
+#### 정성적 지표
+- **커뮤니케이션**: 지시 이해도 및 질문 적절성
+- **프로액티브**: 능동적 문제 해결 및 개선 제안
+- **학습 태도**: 피드백 반영 및 스킬 향상
+- **팀워크**: 협업 체계 내에서의 역할 수행
+
+### 🚀 성장 로드맵
+
+#### 1주차: 기초 습득
+- 커서 AI 기본 사용법 마스터
+- HTML/CSS 기본 페이지 구현
+- 간단한 JavaScript 기능 구현
+
+#### 2주차: 중급 도전
+- 복잡한 레이아웃 구현
+- API 연동 기능 구현
+- 반응형 디자인 완성
+
+#### 3주차: 고급 활용
+- 성능 최적화 적용
+- 복잡한 인터랙션 구현
+- 전체 통합 및 테스트
+
+## 💡 커서 AI 고급 활용 팁
+
+### 🎯 효율적인 코드 생성
+
+#### 컨텍스트 활용
+```
+"앞서 만든 메인 페이지와 동일한 스타일로 관광명소 페이지를 만들어주세요.
+- 같은 네비게이션 구조
+- 같은 색상 시스템
+- 같은 반응형 브레이크포인트
+단, 콘텐츠는 관광명소 카드 12개로 구성"
+```
+
+#### 점진적 개선
+```
+"위 코드에서 다음 기능을 추가해주세요:
+1. 카테고리 필터링 (자연명소/문화유산/체험활동)
+2. 카드 호버 애니메이션
+3. 모바일에서 2열, 데스크톱에서 3열 레이아웃"
+```
+
+### 🔧 코드 리팩토링
+```
+"다음 코드를 개선해주세요:
+- 중복 코드 제거
+- 함수로 모듈화
+- 성능 최적화
+- 주석 추가
+
+[기존 코드 붙여넣기]"
+```
+
+## 📞 노팀장과의 소통 가이드
+
+### 💬 효과적인 질문 방법
+
+#### ✅ 좋은 질문 예시
+```
+"노팀장님, 관광명소 페이지 구현 중 질문이 있습니다.
+
+구체적 상황:
+- 관광명소 카드 12개를 3x4 그리드로 배치했습니다
+- 모바일에서는 1열로 표시됩니다
+
+질문:
+1. 태블릿(768px-1024px)에서는 몇 열로 표시할까요?
+2. 카드 높이를 고정할지 내용에 따라 가변할지요?
+3. 필터링 시 애니메이션 효과가 필요한가요?
+
+현재 진행상황:
+- 기본 레이아웃 80% 완성
+- 반응형 50% 완성
+- 필터링 기능 구현 예정
+"
+```
+
+#### ❌ 피해야 할 질문
+```
+"이거 어떻게 해야 해요?"
+"잘 모르겠어요"
+"안 되는데요?"
+```
+
+### 🔄 피드백 반영 방법
+
+#### 1단계: 피드백 정리
+- 노팀장의 지적사항을 명확히 파악
+- 우선순위별로 정리
+- 예상 작업 시간 산정
+
+#### 2단계: 개선 계획 보고
+```
+"노팀장님, 피드백 반영 계획입니다.
+
+즉시 수정 (30분 이내):
+- CSS 색상 변경: #007bff → #0056b3
+- 버튼 크기 조정: padding 증가
+
+오늘 내 완료:
+- 모바일 레이아웃 개선
+- 호버 애니메이션 추가
+
+내일 완료:
+- API 연동 기능 구현
+- 에러 처리 강화
+
+질문사항:
+- 애니메이션 지속시간은 0.3초가 적당한가요?
+"
+```
+
+---
+
+**📅 가이드 작성일**: 2025년 6월 8일  
+**✍️ 작성자**: 노팀장 (서대리 교육용)  
+**🎯 목적**: 효율적인 조-노-서 협업 체계 구축  
+**📋 업데이트**: 프로젝트 진행에 따라 지속 보완

@@ -1,0 +1,118 @@
+/* 제주도 관광 웹사이트 - 향상된 이미지 스타일 */
+
+/* 한라산 테마 배경 */
+.hallasan-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #89f7fe 100%);
+    background-size: cover;
+    position: relative;
+}
+
+.hallasan-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+}
+
+/* 바다 테마 배경 */
+.ocean-bg {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #00b894 100%);
+    background-size: 400% 400%;
+    animation: wave 4s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* 제주 오름 테마 배경 */
+.oreum-bg {
+    background: linear-gradient(135deg, #55a3ff 0%, #5f8a8b 50%, #a8e6cf 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.oreum-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(to top, rgba(168,230,207,0.8), transparent);
+}
+
+/* 카드 이미지 영역 개선 */
+.enhanced-card-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 특정 관광지별 배경 */
+.hanlla-mountain {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.seongsan-sunrise {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+}
+
+.manjanggul-cave {
+    background: linear-gradient(135deg, #434343 0%, #000000 100%);
+}
+
+.jungmun-beach {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
+.hallasan-national {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+}
+
+/* 호버 효과 추가 */
+.enhanced-card-image:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* 아이콘 스타일 개선 */
+.enhanced-card-image i {
+    font-size: 4rem;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 배지 스타일 개선 */
+.enhanced-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}

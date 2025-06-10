@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 맛집 - 제주도 관광 가이드</title>
+    <meta name="description" content="제주도의 대표 맛집과 특색 음식을 소개합니다. 흑돼지, 해물요리, 카페 등 제주도 먹거리 정보">
+    <meta name="keywords" content="제주도, 맛집, 흑돼지, 해물, 카페, 제주음식, 맛집추천">
+    
+    <!-- 외부 라이브러리 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 메인 스타일시트 연결 -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- 페이지별 추가 스타일 -->
+    <style>
+        /* 맛집 페이지 전용 스타일 */
+        .restaurants-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .restaurants-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .restaurants-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 2rem 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-tab {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .filter-tab:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .price-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .price-tab {
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .price-tab.active {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .restaurant-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .restaurant-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #adb5bd;
+            position: relative;
+        }
+        
+        .restaurant-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .restaurant-content {
+            padding: 1.5rem;
+        }
+        
+        .restaurant-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .restaurant-category {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .restaurant-location {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .restaurant-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .restaurant-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .restaurant-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+        }
+        
+        .rating-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .restaurant-price {
+            font-weight: 600;
+            color: #28a745;
+        }
+        
+        .restaurant-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            color: #6c757d;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .restaurant-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-detail {
+            flex: 1;
+            padding: 0.8rem;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-detail:hover {
+            background: #e55656;
+            transform: translateY(-1px);
+        }
+        
+        .btn-bookmark {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-bookmark:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-bookmark.active {
+            background: #fef3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .restaurants-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+            
+            .price-filter {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 (메인페이지와 동일) -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">
+                    <i class="fas fa-mountain"></i>
+                    제주도 관광
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="attractions.html" class="nav-link">관광명소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="restaurants.html" class="nav-link active">맛집</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link">숙박</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="maps.html" class="nav-link">지도</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="transport.html" class="nav-link">교통정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link">여행정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> 검색</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="restaurants-hero">
+        <div class="container">
+            <h1>제주도 맛집</h1>
+            <p>제주도의 신선한 해산물과 특색있는 음식을 맛볼 수 있는 최고의 맛집들을 소개합니다</p>
+        </div>
+    </section>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main">
+        <div class="container">
+            <!-- 필터 섹션 -->
+            <div class="filter-section">
+                <!-- 카테고리 필터 -->
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">전체</button>
+                    <button class="filter-tab" data-filter="korean">한식</button>
+                    <button class="filter-tab" data-filter="seafood">해산물</button>
+                    <button class="filter-tab" data-filter="cafe">카페</button>
+                    <button class="filter-tab" data-filter="western">양식</button>
+                    <button class="filter-tab" data-filter="local">제주향토음식</button>
+                </div>
+                
+                <!-- 가격대 필터 -->
+                <div class="price-filter">
+                    <button class="price-tab active" data-price="all">모든 가격대</button>
+                    <button class="price-tab" data-price="budget">1만원 이하</button>
+                    <button class="price-tab" data-price="mid">1-3만원</button>
+                    <button class="price-tab" data-price="high">3만원 이상</button>
+                </div>
+            </div>
+
+            <!-- 맛집 그리드 -->
+            <div class="restaurants-grid">
+                <!-- 흑돼지 맛집 -->
+                <div class="restaurant-card" data-category="local" data-price="high">
+                    <div class="restaurant-image">
+                        <i class="fas fa-utensils"></i>
+                        <span class="restaurant-badge">제주향토음식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">제주흑돼지 명가</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            제주 흑돼지 전문점
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 연동 1234-5
+                        </div>
+                        <p class="restaurant-description">
+                            제주도의 대표 특산품인 흑돼지를 맛볼 수 있는 전문점입니다. 
+                            신선한 흑돼지 고기와 함께 제주의 맛을 경험해보세요.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">흑돼지</span>
+                            <span class="tag">제주특산</span>
+                            <span class="tag">고기집</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.6 (1,284)</span>
+                            </div>
+                            <div class="restaurant-price">35,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 해산물 맛집 -->
+                <div class="restaurant-card" data-category="seafood" data-price="mid">
+                    <div class="restaurant-image">
+                        <i class="fas fa-fish"></i>
+                        <span class="restaurant-badge">해산물</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">바다향 횟집</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            신선한 해산물 전문
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 구좌읍 하도리 567-8
+                        </div>
+                        <p class="restaurant-description">
+                            제주 바다에서 갓 잡은 신선한 해산물을 맛볼 수 있는 곳입니다. 
+                            자연산 회와 해산물 요리를 합리적인 가격에 즐기실 수 있습니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">자연산회</span>
+                            <span class="tag">해산물</span>
+                            <span class="tag">신선함</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.8 (2,156)</span>
+                            </div>
+                            <div class="restaurant-price">25,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제주 전복죽 -->
+                <div class="restaurant-card" data-category="local" data-price="mid">
+                    <div class="restaurant-image">
+                        <i class="fas fa-bowl-food"></i>
+                        <span class="restaurant-badge">제주향토음식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">할머니 전복죽</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            전복요리 전문점
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 성산읍 일출로 123
+                        </div>
+                        <p class="restaurant-description">
+                            제주산 신선한 전복으로 끓인 진한 전복죽과 전복구이를 맛볼 수 있는 
+                            3대째 이어오는 전통 맛집입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">전복죽</span>
+                            <span class="tag">제주산</span>
+                            <span class="tag">전통맛집</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.7 (1,892)</span>
+                            </div>
+                            <div class="restaurant-price">18,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카페 -->
+                <div class="restaurant-card" data-category="cafe" data-price="budget">
+                    <div class="restaurant-image">
+                        <i class="fas fa-coffee"></i>
+                        <span class="restaurant-badge">카페</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">한라산 뷰 카페</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            뷰 맛집 카페
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 애월읍 고성리 456-7
+                        </div>
+                        <p class="restaurant-description">
+                            한라산이 한눈에 보이는 환상적인 뷰와 함께 제주산 원두로 내린 
+                            커피와 수제 디저트를 즐길 수 있는 감성 카페입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">오션뷰</span>
+                            <span class="tag">제주커피</span>
+                            <span class="tag">감성카페</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.9 (3,421)</span>
+                            </div>
+                            <div class="restaurant-price">8,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 한식 맛집 -->
+                <div class="restaurant-card" data-category="korean" data-price="mid">
+                    <div class="restaurant-image">
+                        <i class="fas fa-leaf"></i>
+                        <span class="restaurant-badge">한식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">제주 산채 정식</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            건강한 한식 정식
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중문동 789-1
+                        </div>
+                        <p class="restaurant-description">
+                            제주의 청정 자연에서 자란 산채와 해산물로 만든 건강한 한식 정식을 
+                            맛볼 수 있는 웰빙 맛집입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">산채정식</span>
+                            <span class="tag">건강식</span>
+                            <span class="tag">웰빙</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.3 (987)</span>
+                            </div>
+                            <div class="restaurant-price">22,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 양식 레스토랑 -->
+                <div class="restaurant-card" data-category="western" data-price="high">
+                    <div class="restaurant-image">
+                        <i class="fas fa-wine-glass"></i>
+                        <span class="restaurant-badge">양식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">오션뷰 레스토랑</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            파인다이닝 레스토랑
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중문관광로 321
+                        </div>
+                        <p class="restaurant-description">
+                            제주 바다가 한눈에 보이는 로맨틱한 분위기에서 
+                            고급 양식 코스요리를 즐길 수 있는 프리미엄 레스토랑입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">파인다이닝</span>
+                            <span class="tag">오션뷰</span>
+                            <span class="tag">로맨틱</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.5 (1,456)</span>
+                            </div>
+                            <div class="restaurant-price">65,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 고기국수 -->
+                <div class="restaurant-card" data-category="local" data-price="budget">
+                    <div class="restaurant-image">
+                        <i class="fas fa-bowl-hot"></i>
+                        <span class="restaurant-badge">제주향토음식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">제주 고기국수</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            제주 전통 국수
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 구남로 15길 23
+                        </div>
+                        <p class="restaurant-description">
+                            제주의 대표 향토음식인 고기국수를 맛볼 수 있는 곳입니다. 
+                            진한 사골 육수와 부드러운 면발이 일품인 서민 맛집입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">고기국수</span>
+                            <span class="tag">향토음식</span>
+                            <span class="tag">서민맛집</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.8 (2,834)</span>
+                            </div>
+                            <div class="restaurant-price">7,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 디저트 카페 -->
+                <div class="restaurant-card" data-category="cafe" data-price="budget">
+                    <div class="restaurant-image">
+                        <i class="fas fa-ice-cream"></i>
+                        <span class="restaurant-badge">카페</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">한라봉 디저트</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            제주 특산 디저트
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 표선면 가시리 234
+                        </div>
+                        <p class="restaurant-description">
+                            제주의 특산품인 한라봉을 활용한 다양한 디저트와 음료를 
+                            맛볼 수 있는 감귤 테마 카페입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">한라봉</span>
+                            <span class="tag">디저트</span>
+                            <span class="tag">특산품</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.6 (1,723)</span>
+                            </div>
+                            <div class="restaurant-price">6,500원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 해산물 라면 -->
+                <div class="restaurant-card" data-category="seafood" data-price="budget">
+                    <div class="restaurant-image">
+                        <i class="fas fa-shrimp"></i>
+                        <span class="restaurant-badge">해산물</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">바다 라면</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            해산물 라면 전문
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 한림읍 한림로 567
+                        </div>
+                        <p class="restaurant-description">
+                            제주 바다에서 직접 잡은 해산물이 가득 들어간 푸짐한 라면을 
+                            저렴한 가격에 맛볼 수 있는 가성비 맛집입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">해산물라면</span>
+                            <span class="tag">가성비</span>
+                            <span class="tag">푸짐함</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.2 (1,234)</span>
+                            </div>
+                            <div class="restaurant-price">9,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갈치조림 -->
+                <div class="restaurant-card" data-category="korean" data-price="mid">
+                    <div class="restaurant-image">
+                        <i class="fas fa-fish"></i>
+                        <span class="restaurant-badge">한식</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">제주 갈치조림</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            갈치요리 전문점
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 안덕면 화순로 123
+                        </div>
+                        <p class="restaurant-description">
+                            제주산 은갈치로 만든 매콤달콤한 갈치조림과 갈치구이를 
+                            맛볼 수 있는 제주 전통 맛집입니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">갈치조림</span>
+                            <span class="tag">제주산</span>
+                            <span class="tag">전통맛</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.4 (956)</span>
+                            </div>
+                            <div class="restaurant-price">28,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 브런치 카페 -->
+                <div class="restaurant-card" data-category="cafe" data-price="mid">
+                    <div class="restaurant-image">
+                        <i class="fas fa-cookie-bite"></i>
+                        <span class="restaurant-badge">카페</span>
+                    </div>
+                    <div class="restaurant-content">
+                        <h3 class="restaurant-title">제주 브런치</h3>
+                        <div class="restaurant-category">
+                            <i class="fas fa-tag"></i>
+                            브런치 전문 카페
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 애월읍 애월로 789
+                        </div>
+                        <p class="restaurant-description">
+                            제주산 신선한 재료로 만든 건강한 브런치 메뉴와 스페셜티 커피를 
+                            아름다운 바다 전망과 함께 즐길 수 있습니다.
+                        </p>
+                        <div class="restaurant-tags">
+                            <span class="tag">브런치</span>
+                            <span class="tag">오션뷰</span>
+                            <span class="tag">건강식</span>
+                        </div>
+                        <div class="restaurant-meta">
+                            <div class="restaurant-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.7 (2,145)</span>
+                            </div>
+                            <div class="restaurant-price">15,000원~</div>
+                        </div>
+                        <div class="restaurant-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제주도 관광</h3>
+                    <p>제주도의 아름다운 자연과 문화를 소개하는 관광 가이드</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="트위터"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>관광정보</h4>
+                    <ul>
+                        <li><a href="attractions.html">관광명소</a></li>
+                        <li><a href="restaurants.html">맛집</a></li>
+                        <li><a href="hotels.html">숙박</a></li>
+                        <li><a href="info.html">여행정보</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객지원</h4>
+                    <ul>
+                        <li><a href="#customer-service">고객센터</a></li>
+                        <li><a href="#faq">자주묻는질문</a></li>
+                        <li><a href="#contact">문의하기</a></li>
+                        <li><a href="#review">후기작성</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>연락처</h4>
+                    <p><i class="fas fa-phone"></i> 064-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@jejutour.kr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 제주특별자치도 제주시</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 제주도 관광 가이드. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script>
+        // 맛집 페이지 전용 JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 카테고리 필터 기능
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const priceTabs = document.querySelectorAll('.price-tab');
+            const restaurantCards = document.querySelectorAll('.restaurant-card');
+            
+            let currentFilter = 'all';
+            let currentPrice = 'all';
+            
+            // 카테고리 필터
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+            
+            // 가격 필터
+            priceTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    priceTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPrice = this.dataset.price;
+                    applyFilters();
+                });
+            });
+            
+            // 필터 적용 함수
+            function applyFilters() {
+                restaurantCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const price = card.dataset.price;
+                    
+                    const categoryMatch = currentFilter === 'all' || category === currentFilter;
+                    const priceMatch = currentPrice === 'all' || price === currentPrice;
+                    
+                    if (categoryMatch && priceMatch) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                });
+            }
+            
+            // 즐겨찾기 버튼
+            const bookmarkBtns = document.querySelectorAll('.btn-bookmark');
+            bookmarkBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('active')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        showNotification('즐겨찾기에 추가되었습니다!');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        showNotification('즐겨찾기에서 제거되었습니다!');
+                    }
+                });
+            });
+            
+            // 상세보기 버튼
+            const detailBtns = document.querySelectorAll('.btn-detail');
+            detailBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.restaurant-card');
+                    const title = card.querySelector('.restaurant-title').textContent;
+                    showNotification(`${title} 상세 정보 페이지로 이동합니다.`);
+                });
+            });
+            
+            // 카드 애니메이션
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.opacity = '1';
+                    }
+                });
+            }, observerOptions);
+            
+            // 카드들에 초기 스타일 적용 및 옵저버 연결
+            restaurantCards.forEach((card, index) => {
+                card.style.transform = 'translateY(50px)';
+                card.style.opacity = '0';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+        
+        // 알림 메시지 함수
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification show';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff6b6b;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

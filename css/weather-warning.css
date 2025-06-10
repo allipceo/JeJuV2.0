@@ -1,0 +1,155 @@
+/**
+ * 제주도 기상특보 서비스 스타일
+ * 작성일: 2025.06.08
+ */
+
+/* 기상특보 섹션 */
+.weather-warning-section {
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #ff6b6b10, #4ecdc410);
+}
+
+.weather-warning-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 정상 상태 (특보 없음) */
+.warning-normal {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #00b894, #00a085);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+}
+
+.warning-normal .warning-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+}
+
+.warning-normal .warning-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.warning-normal .warning-content p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* 에러 상태 */
+.warning-error {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fdcb6e, #e17055);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(253, 203, 110, 0.3);
+}
+
+.warning-error .warning-icon {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+}
+
+.warning-error .warning-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.warning-error .warning-content p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* 활동별 안전도 카드 */
+.activity-safety-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #74b9ff10, #0984e310);
+}
+
+.activity-safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.activity-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #74b9ff;
+    transition: all 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.activity-card .activity-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.activity-card h3 {
+    margin: 0 0 1rem 0;
+    color: #2d3436;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.safety-indicator {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(116, 185, 255, 0.1);
+    border-radius: 10px;
+}
+
+.safety-level {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.safety-description {
+    font-size: 0.9rem;
+    color: #636e72;
+    line-height: 1.4;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .warning-normal,
+    .warning-error {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .warning-normal .warning-icon,
+    .warning-error .warning-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .activity-safety-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .activity-card {
+        padding: 1.5rem;
+    }
+}

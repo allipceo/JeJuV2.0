@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 여행정보 - 제주도 관광 가이드</title>
+    <meta name="description" content="제주도 여행에 필요한 모든 정보를 제공합니다. 교통, 날씨, 여행팁, 응급상황 대응 등 실용적인 여행 가이드">
+    <meta name="keywords" content="제주도, 여행정보, 교통, 날씨, 여행팁, 렌터카, 항공">
+    
+    <!-- 외부 라이브러리 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 메인 스타일시트 연결 -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- 페이지별 추가 스타일 -->
+    <style>
+        /* 여행정보 페이지 전용 스타일 */
+        .info-hero {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .info-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .info-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .info-navigation {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        
+        .info-nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .info-nav-tab {
+            padding: 0.8rem 1.5rem;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .info-nav-tab.active {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .info-nav-tab:hover {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            transform: translateY(-2px);
+        }
+        
+        .info-section {
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .info-section:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .info-card-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .info-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+        
+        .info-card-content {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .info-list li i {
+            color: #28a745;
+            width: 20px;
+        }
+        
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .weather-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .weather-season {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .weather-temp {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+        
+        .weather-desc {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .weather-clothes {
+            background: #e8f5e8;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .tip-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info {
+            background: #fff3cd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .contact-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #856404;
+        }
+        
+        .contact-details {
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .info-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .info-nav-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .weather-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 (메인페이지와 동일) -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">
+                    <i class="fas fa-mountain"></i>
+                    제주도 관광
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="attractions.html" class="nav-link">관광명소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="restaurants.html" class="nav-link">맛집</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link">숙박</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="maps.html" class="nav-link">지도</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="transport.html" class="nav-link">교통정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link active">여행정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> 검색</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="info-hero">
+        <div class="container">
+            <h1>제주도 여행정보</h1>
+            <p>제주도 여행을 위한 모든 필수 정보와 실용적인 팁을 한눈에 확인하세요</p>
+        </div>
+    </section>
+
+    <!-- 네비게이션 탭 -->
+    <section class="info-navigation">
+        <div class="container">
+            <div class="info-nav-tabs">
+                <a href="#transport" class="info-nav-tab active">교통정보</a>
+                <a href="#weather" class="info-nav-tab">날씨</a>
+                <a href="#tips" class="info-nav-tab">여행팁</a>
+                <a href="#emergency" class="info-nav-tab">응급상황</a>
+                <a href="#culture" class="info-nav-tab">문화정보</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main">
+        <!-- 교통정보 섹션 -->
+        <section id="transport" class="info-section">
+            <div class="container">
+                <h2 class="section-title">실시간 교통정보</h2>
+                
+                <!-- 실시간 교통 서비스 안내 -->
+                <div class="transport-upgrade-notice" style="margin-bottom: 3rem;">
+                    <div class="upgrade-card" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%); border-radius: 20px; padding: 2rem; text-align: center; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div class="upgrade-icon" style="font-size: 3rem; margin-bottom: 1rem;">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">🚀 새로운 실시간 교통정보 서비스</h3>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 2rem;">제주도의 항공편, 교통량, 버스, 여객선 정보를 실시간으로 확인하세요!</p>
+                        <div class="upgrade-features" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 15px;">✈️ 제주공항 실시간 항공편</div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 15px;">🛣️ 주요 도로 실시간 교통량</div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 15px;">🚌 버스 실시간 운행정보</div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 15px;">🚢 여객선 실시간 운항정보</div>
+                        </div>
+                        <a href="transport.html" class="upgrade-button" style="display: inline-flex; align-items: center; gap: 0.75rem; background: white; color: #1e3a8a; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                            <i class="fas fa-external-link-alt"></i>
+                            실시간 교통정보 보기
+                        </a>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <!-- 항공 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3 class="info-card-title">항공</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-plane-departure"></i> 제주국제공항</li>
+                                <li><i class="fas fa-clock"></i> 서울-제주: 약 1시간 20분</li>
+                                <li><i class="fas fa-clock"></i> 부산-제주: 약 1시간</li>
+                                <li><i class="fas fa-won-sign"></i> 항공료: 10만원~30만원</li>
+                                <li><i class="fas fa-info-circle"></i> 대한항공, 아시아나, 진에어, 제주항공 등</li>
+                                <li><i class="fas fa-calendar"></i> 성수기 예약 필수</li>
+                            </ul>
+                            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <a href="transport.html" style="color: #1e3a8a; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-broadcast-tower"></i>
+                                    실시간 항공편 정보 보기 →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 렌터카 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3 class="info-card-title">렌터카</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-id-card"></i> 운전면허증 필수</li>
+                                <li><i class="fas fa-won-sign"></i> 소형차: 3만원~5만원/일</li>
+                                <li><i class="fas fa-won-sign"></i> 중형차: 5만원~8만원/일</li>
+                                <li><i class="fas fa-gas-pump"></i> 주유비 별도</li>
+                                <li><i class="fas fa-shield-alt"></i> 보험 가입 권장</li>
+                                <li><i class="fas fa-map-marked-alt"></i> 내비게이션 제공</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 대중교통 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <h3 class="info-card-title">대중교통</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-bus"></i> 시내버스: 1,370원</li>
+                                <li><i class="fas fa-route"></i> 간선버스: 주요 관광지 연결</li>
+                                <li><i class="fas fa-map"></i> 지선버스: 세부 지역 이동</li>
+                                <li><i class="fas fa-credit-card"></i> 교통카드 사용 가능</li>
+                                <li><i class="fas fa-taxi"></i> 택시: 기본요금 4,800원</li>
+                                <li><i class="fas fa-mobile-alt"></i> 카카오택시 이용 가능</li>
+                            </ul>
+                            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <a href="transport.html" style="color: #1e3a8a; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-bus"></i>
+                                    실시간 버스 정보 보기 →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 공항 교통 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-shuttle-van"></i>
+                        </div>
+                        <h3 class="info-card-title">공항 교통</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-bus"></i> 공항리무진: 4,500원~6,000원</li>
+                                <li><i class="fas fa-clock"></i> 제주시내: 약 40분</li>
+                                <li><i class="fas fa-clock"></i> 서귀포: 약 1시간</li>
+                                <li><i class="fas fa-taxi"></i> 택시: 제주시내 15,000원</li>
+                                <li><i class="fas fa-car-rental"></i> 렌터카: 공항 내 카운터</li>
+                                <li><i class="fas fa-shuttle-van"></i> 호텔 셔틀버스 운행</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 날씨정보 섹션 -->
+        <section id="weather" class="info-section">
+            <div class="container">
+                <h2 class="section-title">계절별 날씨정보</h2>
+                <div class="weather-grid">
+                    <!-- 봄 -->
+                    <div class="weather-card">
+                        <div class="weather-season">🌸 봄 (3-5월)</div>
+                        <div class="weather-temp">15-20°C</div>
+                        <div class="weather-desc">온화하고 쾌적한 날씨</div>
+                        <div class="weather-clothes">
+                            <strong>추천 복장:</strong><br>
+                            얇은 가디건, 긴팔 셔츠<br>
+                            가벼운 바람막이
+                        </div>
+                    </div>
+
+                    <!-- 여름 -->
+                    <div class="weather-card">
+                        <div class="weather-season">☀️ 여름 (6-8월)</div>
+                        <div class="weather-temp">25-30°C</div>
+                        <div class="weather-desc">덥고 습한 날씨, 태풍 주의</div>
+                        <div class="weather-clothes">
+                            <strong>추천 복장:</strong><br>
+                            반팔, 반바지, 원피스<br>
+                            선크림, 모자 필수
+                        </div>
+                    </div>
+
+                    <!-- 가을 -->
+                    <div class="weather-card">
+                        <div class="weather-season">🍂 가을 (9-11월)</div>
+                        <div class="weather-temp">15-25°C</div>
+                        <div class="weather-desc">맑고 시원한 여행 최적기</div>
+                        <div class="weather-clothes">
+                            <strong>추천 복장:</strong><br>
+                            긴팔, 얇은 점퍼<br>
+                            일교차 대비 겉옷
+                        </div>
+                    </div>
+
+                    <!-- 겨울 -->
+                    <div class="weather-card">
+                        <div class="weather-season">❄️ 겨울 (12-2월)</div>
+                        <div class="weather-temp">5-15°C</div>
+                        <div class="weather-desc">온화하지만 바람이 강함</div>
+                        <div class="weather-clothes">
+                            <strong>추천 복장:</strong><br>
+                            두꺼운 외투, 목도리<br>
+                            바람막이 재킷
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 날씨 팁 -->
+                <div class="tip-card">
+                    <div class="tip-title">
+                        <i class="fas fa-lightbulb"></i>
+                        날씨 관련 팁
+                    </div>
+                    <ul class="info-list">
+                        <li><i class="fas fa-umbrella"></i> 제주도는 비가 자주 오니 우산 준비</li>
+                        <li><i class="fas fa-wind"></i> 바람이 강해 모자나 스카프 주의</li>
+                        <li><i class="fas fa-sun"></i> 자외선이 강하니 선크림 필수</li>
+                        <li><i class="fas fa-thermometer-half"></i> 일교차가 크니 겉옷 준비</li>
+                        <li><i class="fas fa-mobile-alt"></i> 날씨앱으로 실시간 확인</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 여행팁 섹션 -->
+        <section id="tips" class="info-section">
+            <div class="container">
+                <h2 class="section-title">여행팁</h2>
+                <div class="info-grid">
+                    <!-- 준비물 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-suitcase"></i>
+                        </div>
+                        <h3 class="info-card-title">필수 준비물</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-id-card"></i> 신분증</li>
+                                <li><i class="fas fa-credit-card"></i> 신용카드</li>
+                                <li><i class="fas fa-mobile-alt"></i> 충전기</li>
+                                <li><i class="fas fa-pills"></i> 상비약</li>
+                                <li><i class="fas fa-umbrella"></i> 우산</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 예산 -->
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="info-card-title">예산 가이드</h3>
+                        <div class="info-card-content">
+                            <ul class="info-list">
+                                <li><i class="fas fa-plane"></i> 항공료: 10-30만원</li>
+                                <li><i class="fas fa-bed"></i> 숙박: 5-50만원/박</li>
+                                <li><i class="fas fa-car"></i> 렌터카: 3-8만원/일</li>
+                                <li><i class="fas fa-utensils"></i> 식비: 3-10만원/일</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 응급상황 섹션 -->
+        <section id="emergency" class="info-section">
+            <div class="container">
+                <h2 class="section-title">응급상황 대응</h2>
+                <div class="contact-info">
+                    <div class="contact-title">
+                        <i class="fas fa-phone-alt"></i> 응급전화번호
+                    </div>
+                    <div class="contact-details">
+                        <strong>119</strong> - 화재신고 / 구급차<br>
+                        <strong>112</strong> - 경찰신고<br>
+                        <strong>1330</strong> - 관광통역안내
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 문화정보 섹션 -->
+        <section id="culture" class="info-section">
+            <div class="container">
+                <h2 class="section-title">제주 문화정보</h2>
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="info-card-title">제주 방언</h3>
+                    <div class="info-card-content">
+                        <ul class="info-list">
+                            <li><i class="fas fa-quote-left"></i> 혼저옵서예 → 어서오세요</li>
+                            <li><i class="fas fa-quote-left"></i> 고맙수다 → 고맙습니다</li>
+                            <li><i class="fas fa-quote-left"></i> 하르방 → 할아버지</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제주도 관광</h3>
+                    <p>제주도의 아름다운 자연과 문화를 소개하는 관광 가이드</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 제주도 관광 가이드. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navTabs = document.querySelectorAll('.info-nav-tab');
+            const sections = document.querySelectorAll('.info-section');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        const headerHeight = 160;
+                        const targetPosition = targetSection.offsetTop - headerHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const cards = document.querySelectorAll('.info-card, .weather-card, .tip-card, .contact-info');
+            cards.forEach((card, index) => {
+                card.style.transform = 'translateY(50px)';
+                card.style.opacity = '0';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                setTimeout(() => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.opacity = '1';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

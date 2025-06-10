@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 숙박 - 제주도 관광 가이드</title>
+    <meta name="description" content="제주도의 다양한 숙박시설을 소개합니다. 호텔, 펜션, 리조트, 게스트하우스 등 제주도 숙박 정보">
+    <meta name="keywords" content="제주도, 숙박, 호텔, 펜션, 리조트, 게스트하우스, 제주숙박">
+    
+    <!-- 외부 라이브러리 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 메인 스타일시트 연결 -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- 페이지별 추가 스타일 -->
+    <style>
+        /* 숙박 페이지 전용 스타일 */
+        .hotels-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hotels-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .hotels-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 2rem 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+        }
+        
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: block;
+            color: var(--text-color);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-tab {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .filter-tab:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .hotel-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hotel-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #adb5bd;
+            position: relative;
+        }
+        
+        .hotel-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .hotel-price-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #28a745;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .hotel-content {
+            padding: 1.5rem;
+        }
+        
+        .hotel-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .hotel-location {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .hotel-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-features {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        
+        .hotel-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .hotel-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+        }
+        
+        .rating-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .hotel-price {
+            text-align: right;
+        }
+        
+        .price-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .price-unit {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .hotel-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-reserve {
+            flex: 2;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-reserve:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-detail {
+            flex: 1;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            color: var(--text-color);
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-detail:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-bookmark {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-bookmark:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-bookmark.active {
+            background: #fef3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .hotels-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hotels-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 (메인페이지와 동일) -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">
+                    <i class="fas fa-mountain"></i>
+                    제주도 관광
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="attractions.html" class="nav-link">관광명소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="restaurants.html" class="nav-link">맛집</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link active">숙박</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="maps.html" class="nav-link">지도</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="transport.html" class="nav-link">교통정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link">여행정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> 검색</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hotels-hero">
+        <div class="container">
+            <h1>제주도 숙박</h1>
+            <p>제주도의 아름다운 자연을 만끽할 수 있는 다양한 숙박시설을 소개합니다</p>
+        </div>
+    </section>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main">
+        <div class="container">
+            <!-- 필터 섹션 -->
+            <div class="filter-section">
+                <!-- 숙박 타입 필터 -->
+                <div class="filter-group">
+                    <span class="filter-label">숙박 타입</span>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">전체</button>
+                        <button class="filter-tab" data-filter="hotel">호텔</button>
+                        <button class="filter-tab" data-filter="resort">리조트</button>
+                        <button class="filter-tab" data-filter="pension">펜션</button>
+                        <button class="filter-tab" data-filter="guesthouse">게스트하우스</button>
+                    </div>
+                </div>
+                
+                <!-- 지역 필터 -->
+                <div class="filter-group">
+                    <span class="filter-label">지역</span>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-location="all">전체 지역</button>
+                        <button class="filter-tab" data-location="jeju-city">제주시</button>
+                        <button class="filter-tab" data-location="seogwipo">서귀포시</button>
+                        <button class="filter-tab" data-location="jungmun">중문</button>
+                        <button class="filter-tab" data-location="seongsan">성산</button>
+                    </div>
+                </div>
+                
+                <!-- 가격대 필터 -->
+                <div class="filter-group">
+                    <span class="filter-label">가격대 (1박 기준)</span>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-price="all">모든 가격대</button>
+                        <button class="filter-tab" data-price="budget">10만원 이하</button>
+                        <button class="filter-tab" data-price="mid">10-30만원</button>
+                        <button class="filter-tab" data-price="luxury">30만원 이상</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API 모드 토글 버튼 -->
+            <div style="text-align: center; margin: 2rem 0;">
+                <button id="api-toggle-btn" onclick="toggleApiMode()" style="
+                    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                    color: white;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 25px;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+                    transition: all 0.3s ease;
+                ">
+                    🚀 실시간 API 모드
+                </button>
+            </div>
+
+            <!-- 기존 정적 숙박시설 그리드 -->
+            <div id="static-hotels" class="hotels-grid">
+                <!-- 제주 신라호텔 -->
+                <div class="hotel-card" data-category="hotel" data-location="jungmun" data-price="luxury">
+                    <div class="hotel-image">
+                        <i class="fas fa-hotel"></i>
+                        <span class="hotel-badge">호텔</span>
+                        <span class="hotel-price-badge">350,000원~</span>
+                    </div>
+                <!-- 바다뷰 펜션 -->
+                <div class="hotel-card" data-category="pension" data-location="seongsan" data-price="mid">
+                    <div class="hotel-image">
+                        <i class="fas fa-home"></i>
+                        <span class="hotel-badge">펜션</span>
+                        <span class="hotel-price-badge">120,000원~</span>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-title">성산 바다뷰 펜션</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 성산읍 일출로 234
+                        </div>
+                        <p class="hotel-description">
+                            성산일출봉 인근에 위치한 아늑한 펜션으로 바다 전망이 아름답고 
+                            가족 단위 여행객들에게 인기가 높은 숙박시설입니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-water"></i> 오션뷰</span>
+                            <span class="feature-tag"><i class="fas fa-kitchen-set"></i> 취사가능</span>
+                            <span class="feature-tag"><i class="fas fa-car"></i> 무료주차</span>
+                            <span class="feature-tag"><i class="fas fa-dog"></i> 반려동물</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.8 (967)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">120,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 게스트하우스 -->
+                <div class="hotel-card" data-category="guesthouse" data-location="jeju-city" data-price="budget">
+                    <div class="hotel-image">
+                        <i class="fas fa-bed"></i>
+                        <span class="hotel-badge">게스트하우스</span>
+                        <span class="hotel-price-badge">45,000원~</span>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-title">제주 백패커 게스트하우스</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 중앙로 456
+                        </div>
+                        <p class="hotel-description">
+                            젊은 여행객들을 위한 깔끔하고 경제적인 숙박시설로 
+                            도심 접근성이 좋고 다양한 국적의 여행자들과 교류할 수 있습니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-users"></i> 공용공간</span>
+                            <span class="feature-tag"><i class="fas fa-kitchen-set"></i> 공용주방</span>
+                            <span class="feature-tag"><i class="fas fa-wifi"></i> 무료WiFi</span>
+                            <span class="feature-tag"><i class="fas fa-bus"></i> 교통편리</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.2 (423)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">45,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제주 하얏트 리젠시 -->
+                <div class="hotel-card" data-category="resort" data-location="jungmun" data-price="luxury">
+                    <div class="hotel-image">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span class="hotel-badge">리조트</span>
+                        <span class="hotel-price-badge">450,000원~</span>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-title">제주 하얏트 리젠시</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중문관광로 114
+                        </div>
+                        <p class="hotel-description">
+                            중문 해변에 위치한 프리미엄 리조트로 카지노, 골프장, 스파 등 
+                            다양한 부대시설을 갖춘 종합 리조트입니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-golf-ball"></i> 골프장</span>
+                            <span class="feature-tag"><i class="fas fa-dice"></i> 카지노</span>
+                            <span class="feature-tag"><i class="fas fa-hot-tub"></i> 온천</span>
+                            <span class="feature-tag"><i class="fas fa-cocktail"></i> 바</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.6 (1,892)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">450,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 한라산뷰 펜션 -->
+                <div class="hotel-card" data-category="pension" data-location="jeju-city" data-price="mid">
+                    <div class="hotel-image">
+                        <i class="fas fa-mountain"></i>
+                        <span class="hotel-badge">펜션</span>
+                        <span class="hotel-price-badge">180,000원~</span>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-title">한라산뷰 힐링펜션</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 애월읍 고성리 678
+                        </div>
+                        <p class="hotel-description">
+                            한라산이 한눈에 보이는 고요한 자연 속 펜션으로 
+                            프라이빗한 공간에서 제주의 자연을 만끽할 수 있습니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-mountain"></i> 한라산뷰</span>
+                            <span class="feature-tag"><i class="fas fa-hot-tub"></i> 개별스파</span>
+                            <span class="feature-tag"><i class="fas fa-fire"></i> 바베큐</span>
+                            <span class="feature-tag"><i class="fas fa-tree"></i> 정원</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.7 (1,234)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">180,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 서귀포 부티크호텔 -->
+                <div class="hotel-card" data-category="hotel" data-location="seogwipo" data-price="mid">
+                    <div class="hotel-image">
+                        <i class="fas fa-gem"></i>
+                        <span class="hotel-badge">호텔</span>
+                        <span class="hotel-price-badge">220,000원~</span>
+                    </div>
+                    <div class="hotel-content">
+                        <h3 class="hotel-title">서귀포 부티크호텔</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중정로 123
+                        </div>
+                        <p class="hotel-description">
+                            서귀포 시내 중심가에 위치한 감각적인 부티크호텔로 
+                            세련된 인테리어와 개성있는 서비스를 제공합니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-palette"></i> 디자인</span>
+                            <span class="feature-tag"><i class="fas fa-coffee"></i> 카페</span>
+                            <span class="feature-tag"><i class="fas fa-concierge-bell"></i> 컨시어지</span>
+                            <span class="feature-tag"><i class="fas fa-shopping-bag"></i> 쇼핑가</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.9 (789)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">220,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 실시간 API 숙박시설 섹션 -->
+    <section id="api-hotels" style="display: none; padding: 2rem 0; background: #f8f9fa;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: #007bff; margin-bottom: 0.5rem;">🚀 실시간 숙박 예약 서비스</h2>
+                <p style="color: #666; font-size: 1.1rem;">실시간 가격과 예약 가능 여부를 확인하세요</p>
+            </div>
+            <div id="hotels-container" class="hotels-grid">
+                <!-- 여기에 실시간 API 데이터가 로드됩니다 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제주도 관광</h3>
+                    <p>제주도의 아름다운 자연과 문화를 소개하는 관광 가이드</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="트위터"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>관광정보</h4>
+                    <ul>
+                        <li><a href="attractions.html">관광명소</a></li>
+                        <li><a href="restaurants.html">맛집</a></li>
+                        <li><a href="hotels.html">숙박</a></li>
+                        <li><a href="info.html">여행정보</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객지원</h4>
+                    <ul>
+                        <li><a href="#customer-service">고객센터</a></li>
+                        <li><a href="#faq">자주묻는질문</a></li>
+                        <li><a href="#contact">문의하기</a></li>
+                        <li><a href="#review">후기작성</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>연락처</h4>
+                    <p><i class="fas fa-phone"></i> 064-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@jejutour.kr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 제주특별자치도 제주시</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 제주도 관광 가이드. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script>
+        // 숙박 페이지 전용 JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 필터 변수들
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const hotelCards = document.querySelectorAll('.hotel-card');
+            
+            let currentFilter = 'all';
+            let currentLocation = 'all';
+            let currentPrice = 'all';
+            
+            // 필터 이벤트 리스너
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 같은 그룹의 탭들에서 active 제거
+                    const filterGroup = this.parentElement;
+                    filterGroup.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 필터 값 업데이트
+                    if (this.dataset.filter) {
+                        currentFilter = this.dataset.filter;
+                    }
+                    if (this.dataset.location) {
+                        currentLocation = this.dataset.location;
+                    }
+                    if (this.dataset.price) {
+                        currentPrice = this.dataset.price;
+                    }
+                    
+                    applyFilters();
+                });
+            });
+            
+            // 필터 적용 함수
+            function applyFilters() {
+                hotelCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const location = card.dataset.location;
+                    const price = card.dataset.price;
+                    
+                    const categoryMatch = currentFilter === 'all' || category === currentFilter;
+                    const locationMatch = currentLocation === 'all' || location === currentLocation;
+                    const priceMatch = currentPrice === 'all' || price === currentPrice;
+                    
+                    if (categoryMatch && locationMatch && priceMatch) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                });
+            }
+            
+            // 즐겨찾기 버튼
+            const bookmarkBtns = document.querySelectorAll('.btn-bookmark');
+            bookmarkBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('active')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        showNotification('즐겨찾기에 추가되었습니다!');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        showNotification('즐겨찾기에서 제거되었습니다!');
+                    }
+                });
+            });
+            
+            // 예약하기 버튼
+            const reserveBtns = document.querySelectorAll('.btn-reserve');
+            reserveBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.hotel-card');
+                    const title = card.querySelector('.hotel-title').textContent;
+                    showNotification(`${title} 예약 페이지로 이동합니다.`);
+                });
+            });
+            
+            // 상세보기 버튼
+            const detailBtns = document.querySelectorAll('.btn-detail');
+            detailBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.hotel-card');
+                    const title = card.querySelector('.hotel-title').textContent;
+                    showNotification(`${title} 상세 정보를 확인합니다.`);
+                });
+            });
+            
+            // 카드 애니메이션
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.opacity = '1';
+                    }
+                });
+            }, observerOptions);
+            
+            // 카드들에 초기 스타일 적용 및 옵저버 연결
+            hotelCards.forEach((card, index) => {
+                card.style.transform = 'translateY(50px)';
+                card.style.opacity = '0';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+        
+        // 알림 메시지 함수
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification show';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary-color);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // 실시간 API 연동 추가
+        function toggleApiMode() {
+            const staticSection = document.getElementById('static-hotels');
+            const apiSection = document.getElementById('api-hotels');
+            const toggleBtn = document.getElementById('api-toggle-btn');
+            
+            if (staticSection.style.display === 'none') {
+                // 정적 모드로 전환
+                staticSection.style.display = 'block';
+                apiSection.style.display = 'none';
+                toggleBtn.textContent = '실시간 API 모드';
+                toggleBtn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            } else {
+                // API 모드로 전환
+                staticSection.style.display = 'none';
+                apiSection.style.display = 'block';
+                toggleBtn.textContent = '기본 모드';
+                toggleBtn.style.background = 'linear-gradient(135deg, #007bff 0%, #6610f2 100%)';
+                
+                // API 데이터 로드
+                if (window.accommodationService) {
+                    accommodationService.getAccommodations();
+                }
+            }
+        }
+    </script>
+    
+    <!-- 숙박 API 연동 스크립트 -->
+    <link rel="stylesheet" href="../css/accommodation.css">
+    <script src="../js/accommodation.js"></script>
+</body>
+</html>
+                        <h3 class="hotel-title">제주 신라호텔</h3>
+                        <div class="hotel-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중문관광로 75
+                        </div>
+                        <p class="hotel-description">
+                            제주도 최고급 호텔로 중문 해변의 아름다운 전망과 함께 
+                            최상의 서비스를 제공하는 5성급 럭셔리 호텔입니다.
+                        </p>
+                        <div class="hotel-features">
+                            <span class="feature-tag"><i class="fas fa-swimming-pool"></i> 수영장</span>
+                            <span class="feature-tag"><i class="fas fa-spa"></i> 스파</span>
+                            <span class="feature-tag"><i class="fas fa-water"></i> 오션뷰</span>
+                            <span class="feature-tag"><i class="fas fa-car"></i> 주차장</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <div class="hotel-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.9 (1,284)</span>
+                            </div>
+                            <div class="hotel-price">
+                                <div class="price-amount">350,000원</div>
+                                <div class="price-unit">/ 1박</div>
+                            </div>
+                        </div>
+                        <div class="hotel-buttons">
+                            <button class="btn-reserve">예약하기</button>
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>

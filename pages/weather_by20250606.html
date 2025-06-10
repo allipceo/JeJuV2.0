@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 실시간 날씨 정보 | 제주도 관광 가이드</title>
+    <meta name="description" content="제주도 4개 지역(제주시, 서귀포시, 한라산, 성산일출봉)의 실시간 날씨 정보와 5일 예보, 날씨별 관광지 추천을 제공합니다.">
+    <meta name="keywords" content="제주도 날씨, 제주시 날씨, 서귀포 날씨, 한라산 날씨, 성산일출봉 날씨, 제주도 여행 날씨">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="제주도 실시간 날씨 정보">
+    <meta property="og:description" content="제주도 여행 계획을 위한 정확한 날씨 정보와 관광지 추천">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://goodfaceai.dothome.co.kr/pages/weather.html">
+    
+    <!-- 파비콘 -->
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <!-- 외부 라이브러리 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 스타일시트 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/weather.css">
+    
+    <!-- 구조화된 데이터 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "제주도 실시간 날씨 정보",
+        "description": "제주도 4개 지역의 실시간 날씨 정보와 5일 예보 서비스",
+        "url": "http://goodfaceai.dothome.co.kr/pages/weather.html",
+        "mainEntity": {
+            "@type": "Place",
+            "name": "제주도",
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "33.4996",
+                "longitude": "126.5312"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">
+                    <i class="fas fa-mountain"></i>
+                    <span>제주도 여행</span>
+                </a>
+            </div>
+            
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="attractions.html">관광명소</a></li>
+                    <li><a href="restaurants.html">맛집</a></li>
+                    <li><a href="hotels.html">숙박</a></li>
+                    <li><a href="info.html">여행정보</a></li>
+                    <li><a href="weather.html" class="active">날씨</a></li>
+                    <li><a href="search.html">검색</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main">
+        <!-- 히어로 섹션 -->
+        <section class="hero-section weather-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <i class="fas fa-cloud-sun"></i>
+                    제주도 실시간 날씨
+                </h1>
+                <p class="hero-subtitle">
+                    정확한 날씨 정보로 완벽한 제주 여행을 계획하세요
+                </p>
+                <div class="hero-weather-summary" id="hero-weather-summary">
+                    <div class="current-time">
+                        <i class="fas fa-clock"></i>
+                        <span id="current-time"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-bg-animation">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
+        </section>
+
+        <!-- 날씨 컨트롤 패널 -->
+        <section class="weather-controls">
+            <div class="container">
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="city-selector">지역 선택:</label>
+                        <select id="city-selector" class="city-selector">
+                            <option value="all">전체 지역</option>
+                            <option value="jeju">제주시</option>
+                            <option value="seogwipo">서귀포시</option>
+                            <option value="hallasan">한라산</option>
+                            <option value="seongsan">성산일출봉</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <button class="weather-refresh-btn" id="weather-refresh">
+                            <i class="fas fa-sync-alt"></i>
+                            새로고침
+                        </button>
+                    </div>
+                    <div class="control-group">
+                        <div class="auto-refresh-status">
+                            <i class="fas fa-clock"></i>
+                            <span>30분마다 자동 업데이트</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 현재 날씨 정보 -->
+        <section class="current-weather-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-thermometer-half"></i>
+                    현재 날씨 정보
+                </h2>
+                <div id="weather-container" class="weather-container">
+                    <!-- 날씨 위젯이 동적으로 로드됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5일 예보 -->
+        <section class="forecast-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    5일 날씨 예보
+                </h2>
+                <div id="forecast-container" class="forecast-container">
+                    <!-- 예보 위젯이 동적으로 로드됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 날씨별 관광지 추천 -->
+        <section class="tourism-recommendations-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    오늘의 추천 관광지
+                </h2>
+                <div id="tourism-recommendations" class="tourism-recommendations">
+                    <!-- 추천 관광지가 동적으로 로드됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 날씨 정보 안내 -->
+        <section class="weather-info-section">
+            <div class="container">
+                <div class="weather-info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>날씨 정보 제공</h3>
+                        <p>OpenWeatherMap API를 통해 정확하고 실시간 날씨 정보를 제공합니다. 10분마다 캐시가 업데이트되어 최신 정보를 유지합니다.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-pin"></i>
+                        </div>
+                        <h3>4개 지역 날씨</h3>
+                        <p>제주시, 서귀포시, 한라산, 성산일출봉 등 주요 관광지역의 날씨를 한눈에 확인할 수 있습니다.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>스마트 추천</h3>
+                        <p>현재 날씨 상황에 맞는 최적의 관광지와 활동을 자동으로 추천해드립니다.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>모바일 최적화</h3>
+                        <p>스마트폰, 태블릿 등 모든 기기에서 최적화된 날씨 정보를 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 날씨 활용 팁 -->
+        <section class="weather-tips-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-tips"></i>
+                    날씨 활용 팁
+                </h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon sunny">☀️</div>
+                        <h3>맑은 날</h3>
+                        <ul>
+                            <li>성산일출봉, 우도 등 경치 감상</li>
+                            <li>해변 활동 및 수상 스포츠</li>
+                            <li>올레길 트레킹</li>
+                            <li>야외 카페에서 휴식</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon cloudy">☁️</div>
+                        <h3>흐린 날</h3>
+                        <ul>
+                            <li>박물관, 미술관 관람</li>
+                            <li>실내 체험 활동</li>
+                            <li>온실 식물원 방문</li>
+                            <li>카페 투어</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon rainy">🌧️</div>
+                        <h3>비 오는 날</h3>
+                        <ul>
+                            <li>제주 동문시장 탐방</li>
+                            <li>실내 관광지 방문</li>
+                            <li>온천 및 스파</li>
+                            <li>지하 상가 쇼핑</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon windy">💨</div>
+                        <h3>바람 부는 날</h3>
+                        <ul>
+                            <li>실내 활동 위주로 계획</li>
+                            <li>바람막이 준비</li>
+                            <li>해안가 주의</li>
+                            <li>카페나 실내 관광지</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>제주도 여행 가이드</h3>
+                <p>제주도의 아름다운 순간을 함께 만들어가세요</p>
+                <div class="social-links">
+                    <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="트위터"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>바로가기</h4>
+                <ul class="footer-links">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="attractions.html">관광명소</a></li>
+                    <li><a href="restaurants.html">맛집</a></li>
+                    <li><a href="hotels.html">숙박</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>서비스</h4>
+                <ul class="footer-links">
+                    <li><a href="info.html">여행정보</a></li>
+                    <li><a href="weather.html">날씨정보</a></li>
+                    <li><a href="search.html">통합검색</a></li>
+                    <li><a href="#" onclick="window.JejuWeather.refresh()">날씨 새로고침</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>날씨 정보</h4>
+                <ul class="footer-links">
+                    <li>데이터 제공: OpenWeatherMap</li>
+                    <li>업데이트: 10분마다</li>
+                    <li>지역: 제주 4개 지역</li>
+                    <li>예보: 5일 예보 제공</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; 2025 제주도 여행 가이드. All rights reserved. | 날씨 정보는 OpenWeatherMap API를 통해 제공됩니다.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script src="../js/weather.js"></script>
+    
+    <script>
+        // 현재 시간 업데이트
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+            }
+        }
+
+        // 페이지 로드 시 시간 업데이트 시작
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000); // 1초마다 업데이트
+            
+            // 히어로 섹션 날씨 요약 업데이트
+            updateHeroWeatherSummary();
+        });
+
+        // 히어로 섹션 날씨 요약 업데이트
+        function updateHeroWeatherSummary() {
+            const heroSummary = document.getElementById('hero-weather-summary');
+            if (!heroSummary) return;
+
+            // 간단한 날씨 요약 표시
+            setTimeout(() => {
+                const summaryHTML = `
+                    <div class="quick-weather-info">
+                        <div class="quick-weather-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>평균 기온</span>
+                            <strong id="avg-temp">로딩중...</strong>
+                        </div>
+                        <div class="quick-weather-item">
+                            <i class="fas fa-eye"></i>
+                            <span>날씨 상태</span>
+                            <strong id="weather-status">로딩중...</strong>
+                        </div>
+                        <div class="quick-weather-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>추천 지역</span>
+                            <strong id="recommended-area">분석중...</strong>
+                        </div>
+                    </div>
+                `;
+                heroSummary.innerHTML += summaryHTML;
+
+                // 날씨 서비스가 로드되면 실제 데이터로 업데이트
+                if (window.jejuWeatherService) {
+                    updateHeroWithRealData();
+                } else {
+                    setTimeout(updateHeroWithRealData, 2000);
+                }
+            }, 500);
+        }
+
+        // 실제 날씨 데이터로 히어로 섹션 업데이트
+        function updateHeroWithRealData() {
+            // 이 함수는 weather.js의 날씨 데이터가 로드된 후 호출됩니다
+            // 실제 구현은 weather.js에서 이루어집니다
+        }
+
+        // 지역 선택 이벤트
+        document.addEventListener('change', function(e) {
+            if (e.target.id === 'city-selector') {
+                const selectedCity = e.target.value;
+                if (selectedCity === 'all') {
+                    // 모든 지역 표시
+                    document.querySelectorAll('.weather-widget').forEach(widget => {
+                        widget.style.display = 'block';
+                    });
+                } else {
+                    // 선택된 지역만 표시
+                    document.querySelectorAll('.weather-widget').forEach(widget => {
+                        const cityKey = widget.getAttribute('data-city');
+                        widget.style.display = cityKey === selectedCity ? 'block' : 'none';
+                    });
+                }
+            }
+        });
+
+        // 새로고침 버튼 이벤트
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'weather-refresh' || e.target.closest('#weather-refresh')) {
+                e.preventDefault();
+                
+                // 버튼 로딩 상태
+                const btn = document.getElementById('weather-refresh');
+                const icon = btn.querySelector('i');
+                const originalText = btn.innerHTML;
+                
+                btn.disabled = true;
+                icon.className = 'fas fa-spinner fa-spin';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 업데이트 중...';
+                
+                // 날씨 정보 새로고침
+                if (window.JejuWeather) {
+                    window.JejuWeather.refresh();
+                }
+                
+                // 3초 후 버튼 상태 복원
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }, 3000);
+            }
+        });
+
+        // 스크롤 애니메이션
+        function handleScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // 애니메이션 대상 요소들
+            document.querySelectorAll('.weather-container, .forecast-container, .info-card, .tip-card').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // 페이지 로드 완료 후 스크롤 애니메이션 설정
+        window.addEventListener('load', handleScrollAnimations);
+
+        // 모바일 메뉴 토글 (기존 script.js와 연동)
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const nav = document.getElementById('nav');
+
+            if (mobileMenuBtn && nav) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    nav.classList.toggle('active');
+                    mobileMenuBtn.classList.toggle('active');
+                });
+            }
+        });
+
+        // 브라우저 뒤로가기/앞으로가기 대응
+        window.addEventListener('popstate', function() {
+            // 페이지 상태 복원
+            updateCurrentTime();
+            if (window.JejuWeather) {
+                window.JejuWeather.refresh();
+            }
+        });
+
+        // 페이지 가시성 변경 시 날씨 업데이트
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && window.JejuWeather) {
+                window.JejuWeather.refresh();
+            }
+        });
+
+        // 에러 처리
+        window.addEventListener('error', function(e) {
+            console.error('날씨 페이지 에러:', e.error);
+            
+            // 사용자에게 친화적인 에러 메시지
+            const errorContainer = document.getElementById('weather-container');
+            if (errorContainer && !errorContainer.innerHTML.includes('날씨 정보를 불러올 수 없습니다')) {
+                errorContainer.innerHTML = `
+                    <div class="weather-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>일시적인 오류가 발생했습니다.</p>
+                        <button class="weather-refresh-btn" onclick="location.reload()">
+                            페이지 새로고침
+                        </button>
+                    </div>
+                `;
+            }
+        });
+
+        // 성능 최적화: 이미지 지연 로딩
+        function initLazyLoading() {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
+
+        // PWA 관련 기능 (미래 확장용)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+    </script>
+
+    <!-- 구글 애널리틱스 (필요시 추가) -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+    
+    <style>
+        /* 페이지 전용 추가 스타일 */
+        .weather-hero {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #00b894 100%);
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh;
+        }
+
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            opacity: 0.7;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+        }
+
+        .cloud-1 {
+            width: 100px;
+            height: 40px;
+            top: 20%;
+            left: -100px;
+            animation: cloudMove1 20s linear infinite;
+        }
+
+        .cloud-1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud-1::after {
+            width: 60px;
+            height: 20px;
+            top: -10px;
+            left: 70px;
+        }
+
+        .cloud-2 {
+            width: 80px;
+            height: 30px;
+            top: 60%;
+            left: -80px;
+            animation: cloudMove2 25s linear infinite;
+        }
+
+        .cloud-2::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud-2::after {
+            width: 50px;
+            height: 15px;
+            top: -5px;
+            left: 60px;
+        }
+
+        .cloud-3 {
+            width: 120px;
+            height: 50px;
+            top: 40%;
+            left: -120px;
+            animation: cloudMove3 30s linear infinite;
+        }
+
+        .cloud-3::before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+
+        .cloud-3::after {
+            width: 70px;
+            height: 25px;
+            top: -12px;
+            left: 80px;
+        }
+
+        @keyframes cloudMove1 {
+            from { left: -100px; }
+            to { left: calc(100% + 100px); }
+        }
+
+        @keyframes cloudMove2 {
+            from { left: -80px; }
+            to { left: calc(100% + 80px); }
+        }
+
+        @keyframes cloudMove3 {
+            from { left: -120px; }
+            to { left: calc(100% + 120px); }
+        }
+
+        .weather-controls {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+
+        .controls-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .city-selector {
+            padding: 8px 16px;
+            border: 2px solid #74b9ff;
+            border-radius: 8px;
+            background: white;
+            font-weight: 500;
+            min-width: 120px;
+        }
+
+        .auto-refresh-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .quick-weather-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quick-weather-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            gap: 4px;
+        }
+
+        .quick-weather-item i {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .quick-weather-item span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .quick-weather-item strong {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .weather-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+        }
+
+        .info-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tip-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .tip-card h3 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 16px;
+        }
+
+        .tip-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tip-card li {
+            padding: 6px 0;
+            color: #636e72;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tip-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        /* 애니메이션 클래스 */
+        .animate-in {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .controls-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group {
+                justify-content: center;
+            }
+
+            .quick-weather-info {
+                gap: 16px;
+            }
+
+            .quick-weather-item {
+                min-width: 100px;
+            }
+
+            .weather-info-grid,
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cloud {
+                display: none; /* 모바일에서는 구름 애니메이션 숨김 */
+            }
+        }
+    </style>
+</body>
+</html>

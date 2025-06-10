@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 관광명소 - 제주도 관광 가이드</title>
+    <meta name="description" content="제주도의 아름다운 관광명소를 소개합니다. 한라산, 성산일출봉, 만장굴 등 제주도 필수 관광지 정보">
+    <meta name="keywords" content="제주도, 관광명소, 한라산, 성산일출봉, 만장굴, 제주관광">
+    
+    <!-- 외부 라이브러리 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- 메인 스타일시트 연결 -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- 페이지별 추가 스타일 -->
+    <style>
+        /* 관광명소 페이지 전용 스타일 */
+        .attractions-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .attractions-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .attractions-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-tab {
+            padding: 0.8rem 1.5rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .filter-tab:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .attraction-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .attraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .attraction-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f0f2f5, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #adb5bd;
+            position: relative;
+        }
+        
+        .attraction-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .attraction-content {
+            padding: 1.5rem;
+        }
+        
+        .attraction-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .attraction-location {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .attraction-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .attraction-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .attraction-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+        }
+        
+        .rating-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .attraction-price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .attraction-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-detail {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-detail:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-bookmark {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-bookmark:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-bookmark.active {
+            background: #fef3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .attractions-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .attractions-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 (메인페이지와 동일) -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-logo">
+                    <i class="fas fa-mountain"></i>
+                    제주도 관광
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="attractions.html" class="nav-link active">관광명소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="restaurants.html" class="nav-link">맛집</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link">숙박</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="maps.html" class="nav-link">지도</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="transport.html" class="nav-link">교통정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link">여행정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> 검색</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="attractions-hero">
+        <div class="container">
+            <h1>제주도 관광명소</h1>
+            <p>제주도의 아름다운 자연과 문화를 만날 수 있는 특별한 장소들을 소개합니다</p>
+        </div>
+    </section>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main">
+        <div class="container">
+            <!-- 필터 탭 -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">전체</button>
+                <button class="filter-tab" data-filter="nature">자연명소</button>
+                <button class="filter-tab" data-filter="culture">문화유산</button>
+                <button class="filter-tab" data-filter="activity">체험활동</button>
+                <button class="filter-tab" data-filter="beach">해변/바다</button>
+            </div>
+
+            <!-- 관광명소 그리드 -->
+            <div class="attractions-grid">
+                <!-- 한라산 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-mountain"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">한라산 국립공원</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 1100로 2070-61
+                        </div>
+                        <p class="attraction-description">
+                            제주도의 중앙에 위치한 한국에서 가장 높은 산(1,947m)으로, 
+                            아름다운 자연경관과 다양한 등산로를 제공합니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.8 (2,847)</span>
+                            </div>
+                            <div class="attraction-price">무료</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 성산일출봉 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-sun"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">성산일출봉</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 성산읍 일출로 284-12
+                        </div>
+                        <p class="attraction-description">
+                            유네스코 세계자연유산으로 지정된 화산 분화구로, 
+                            특히 일출 경관이 아름다워 많은 관광객이 찾는 명소입니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.7 (3,241)</span>
+                            </div>
+                            <div class="attraction-price">5,000원</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 만장굴 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-cave"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">만장굴</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 구좌읍 만장굴길 182
+                        </div>
+                        <p class="attraction-description">
+                            세계 최장의 용암동굴 중 하나로, 약 9km에 달하는 신비로운 
+                            지하세계를 탐험할 수 있는 유네스코 세계자연유산입니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.5 (1,923)</span>
+                            </div>
+                            <div class="attraction-price">4,000원</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 정방폭포 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-water"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">정방폭포</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 칠십리로214번길 37
+                        </div>
+                        <p class="attraction-description">
+                            높이 23m에서 바다로 직접 떨어지는 한국 유일의 해안폭포로, 
+                            시원한 물소리와 함께 힐링을 경험할 수 있습니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.3 (1,456)</span>
+                            </div>
+                            <div class="attraction-price">2,000원</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 섭지코지 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-seedling"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">섭지코지</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 성산읍 섭지코지로 107
+                        </div>
+                        <p class="attraction-description">
+                            아름다운 해안절벽과 등대가 있는 낭만적인 장소로, 
+                            드라마 촬영지로도 유명한 제주도의 대표적인 포토스팟입니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.6 (2,109)</span>
+                            </div>
+                            <div class="attraction-price">무료</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 천지연폭포 -->
+                <div class="attraction-card" data-category="nature">
+                    <div class="attraction-image">
+                        <i class="fas fa-tint"></i>
+                        <span class="attraction-badge">자연명소</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">천지연폭포</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 남성중로2길 15
+                        </div>
+                        <p class="attraction-description">
+                            22m 높이에서 떨어지는 웅장한 폭포로, 천연기념물 담팔수 
+                            자생지가 있어 자연학습장으로도 인기가 높습니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.2 (1,789)</span>
+                            </div>
+                            <div class="attraction-price">2,500원</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 제주아쿠아플라넷 -->
+                <div class="attraction-card" data-category="activity">
+                    <div class="attraction-image">
+                        <i class="fas fa-fish"></i>
+                        <span class="attraction-badge">체험활동</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">제주아쿠아플라넷</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 성산읍 섭지코지로 95
+                        </div>
+                        <p class="attraction-description">
+                            아시아 최대 규모의 수족관으로, 다양한 해양생물을 관찰하고 
+                            체험할 수 있는 가족 친화적인 관광명소입니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.5 (3,892)</span>
+                            </div>
+                            <div class="attraction-price">38,000원</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 협재해수욕장 -->
+                <div class="attraction-card" data-category="beach">
+                    <div class="attraction-image">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span class="attraction-badge">해변/바다</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">협재해수욕장</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 한림읍 협재리 2497-1
+                        </div>
+                        <p class="attraction-description">
+                            에메랄드빛 바다와 하얀 모래가 아름다운 해수욕장으로, 
+                            비양도가 보이는 환상적인 석양 명소로도 유명합니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.6 (2,756)</span>
+                            </div>
+                            <div class="attraction-price">무료</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 함덕해수욕장 -->
+                <div class="attraction-card" data-category="beach">
+                    <div class="attraction-image">
+                        <i class="fas fa-water"></i>
+                        <span class="attraction-badge">해변/바다</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">함덕해수욕장</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            제주시 조천읍 함덕리 1008
+                        </div>
+                        <p class="attraction-description">
+                            맑고 얕은 바다와 넓은 백사장이 특징인 해수욕장으로, 
+                            가족 단위 해수욕과 각종 수상활동을 즐기기에 최적입니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </span>
+                                <span class="rating-text">4.3 (1,923)</span>
+                            </div>
+                            <div class="attraction-price">무료</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 중문색달해수욕장 -->
+                <div class="attraction-card" data-category="beach">
+                    <div class="attraction-image">
+                        <i class="fas fa-wave-square"></i>
+                        <span class="attraction-badge">해변/바다</span>
+                    </div>
+                    <div class="attraction-content">
+                        <h3 class="attraction-title">중문색달해수욕장</h3>
+                        <div class="attraction-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            서귀포시 중문동 2564-1
+                        </div>
+                        <p class="attraction-description">
+                            검은 모래가 특징인 해수욕장으로, 서핑과 보디보드 등 
+                            해양스포츠의 메카로 불리며 젊은 층에게 인기가 높습니다.
+                        </p>
+                        <div class="attraction-meta">
+                            <div class="attraction-rating">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="rating-text">4.4 (2,108)</span>
+                            </div>
+                            <div class="attraction-price">무료</div>
+                        </div>
+                        <div class="attraction-buttons">
+                            <button class="btn-detail">상세보기</button>
+                            <button class="btn-bookmark" title="즐겨찾기">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제주도 관광</h3>
+                    <p>제주도의 아름다운 자연과 문화를 소개하는 관광 가이드</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="트위터"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>관광정보</h4>
+                    <ul>
+                        <li><a href="attractions.html">관광명소</a></li>
+                        <li><a href="restaurants.html">맛집</a></li>
+                        <li><a href="hotels.html">숙박</a></li>
+                        <li><a href="info.html">여행정보</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객지원</h4>
+                    <ul>
+                        <li><a href="#customer-service">고객센터</a></li>
+                        <li><a href="#faq">자주묻는질문</a></li>
+                        <li><a href="#contact">문의하기</a></li>
+                        <li><a href="#review">후기작성</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>연락처</h4>
+                    <p><i class="fas fa-phone"></i> 064-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@jejutour.kr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 제주특별자치도 제주시</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 제주도 관광 가이드. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script>
+        // 관광명소 페이지 전용 JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 필터 기능
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const attractionCards = document.querySelectorAll('.attraction-card');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 활성 탭 변경
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    // 카드 필터링
+                    attractionCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                            setTimeout(() => card.style.opacity = '1', 10);
+                        } else {
+                            if (card.dataset.category === filter) {
+                                card.style.display = 'block';
+                                setTimeout(() => card.style.opacity = '1', 10);
+                            } else {
+                                card.style.opacity = '0';
+                                setTimeout(() => card.style.display = 'none', 300);
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // 즐겨찾기 버튼
+            const bookmarkBtns = document.querySelectorAll('.btn-bookmark');
+            bookmarkBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('active')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        showNotification('즐겨찾기에 추가되었습니다!');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        showNotification('즐겨찾기에서 제거되었습니다!');
+                    }
+                });
+            });
+            
+            // 상세보기 버튼
+            const detailBtns = document.querySelectorAll('.btn-detail');
+            detailBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.attraction-card');
+                    const title = card.querySelector('.attraction-title').textContent;
+                    showNotification(`${title} 상세 정보 페이지로 이동합니다.`);
+                    // 실제로는 상세 페이지로 이동하는 로직 추가
+                });
+            });
+            
+            // 카드 애니메이션
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.opacity = '1';
+                    }
+                });
+            }, observerOptions);
+            
+            // 카드들에 초기 스타일 적용 및 옵저버 연결
+            attractionCards.forEach((card, index) => {
+                card.style.transform = 'translateY(50px)';
+                card.style.opacity = '0';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+        
+        // 알림 메시지 함수 (메인 script.js에서 가져옴)
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification show';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary-color);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

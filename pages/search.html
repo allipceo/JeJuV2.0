@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 검색 - 제주도 여행 가이드</title>
+    <meta name="description" content="제주도 관광명소, 맛집, 숙박시설을 한번에 검색해보세요. 실시간 검색으로 원하는 정보를 빠르게 찾을 수 있습니다.">
+    
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 헤더 섹션 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1><i class="fas fa-island-tropical"></i> 제주 여행</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="attractions.html" class="nav-link">관광명소</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="restaurants.html" class="nav-link">맛집</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="hotels.html" class="nav-link">숙박</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link">여행정보</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="search.html" class="nav-link active">검색</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 검색 히어로 섹션 -->
+    <section class="search-hero">
+        <div class="container">
+            <div class="search-hero-content">
+                <h1><i class="fas fa-search"></i> 제주도 통합 검색</h1>
+                <p>관광명소, 맛집, 숙박시설을 한번에 검색해보세요</p>
+                
+                <!-- 메인 검색 바 -->
+                <div class="main-search-container">
+                    <div class="search-input-wrapper">
+                        <input type="text" id="mainSearchInput" placeholder="검색어를 입력하세요 (예: 한라산, 흑돼지, 호텔)" class="search-input">
+                        <button type="button" class="search-btn" onclick="performSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 검색 필터 섹션 -->
+    <section class="search-filters">
+        <div class="container">
+            <div class="filter-container">
+                <h3><i class="fas fa-filter"></i> 검색 필터</h3>
+                <div class="filter-groups">
+                    <!-- 카테고리 필터 -->
+                    <div class="filter-group">
+                        <label>카테고리</label>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-category="all">전체</button>
+                            <button class="filter-btn" data-category="attractions">관광명소</button>
+                            <button class="filter-btn" data-category="restaurants">맛집</button>
+                            <button class="filter-btn" data-category="hotels">숙박</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 지역 필터 -->
+                    <div class="filter-group">
+                        <label>지역</label>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-region="all">전체</button>
+                            <button class="filter-btn" data-region="jeju-city">제주시</button>
+                            <button class="filter-btn" data-region="seogwipo">서귀포시</button>
+                            <button class="filter-btn" data-region="hallasan">한라산</button>
+                            <button class="filter-btn" data-region="east">동부</button>
+                            <button class="filter-btn" data-region="west">서부</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 가격대 필터 (맛집/숙박용) -->
+                    <div class="filter-group">
+                        <label>가격대</label>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-price="all">전체</button>
+                            <button class="filter-btn" data-price="low">저렴 (1-2만원)</button>
+                            <button class="filter-btn" data-price="medium">보통 (3-5만원)</button>
+                            <button class="filter-btn" data-price="high">고급 (6만원 이상)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 인기 검색어 섹션 -->
+    <section class="popular-keywords">
+        <div class="container">
+            <h3><i class="fas fa-fire"></i> 인기 검색어</h3>
+            <div class="keywords-container">
+                <span class="keyword-tag" onclick="searchKeyword('한라산')">한라산</span>
+                <span class="keyword-tag" onclick="searchKeyword('성산일출봉')">성산일출봉</span>
+                <span class="keyword-tag" onclick="searchKeyword('흑돼지')">흑돼지</span>
+                <span class="keyword-tag" onclick="searchKeyword('해수욕장')">해수욕장</span>
+                <span class="keyword-tag" onclick="searchKeyword('카페')">카페</span>
+                <span class="keyword-tag" onclick="searchKeyword('호텔')">호텔</span>
+                <span class="keyword-tag" onclick="searchKeyword('맛집')">맛집</span>
+                <span class="keyword-tag" onclick="searchKeyword('관광지')">관광지</span>
+                <span class="keyword-tag" onclick="searchKeyword('감귤')">감귤</span>
+                <span class="keyword-tag" onclick="searchKeyword('박물관')">박물관</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 검색 결과 섹션 -->
+    <section class="search-results" id="searchResults">
+        <div class="container">
+            <div class="results-header" id="resultsHeader" style="display: none;">
+                <h3><i class="fas fa-list"></i> 검색 결과</h3>
+                <div class="results-count" id="resultsCount"></div>
+                <div class="sort-options">
+                    <label for="sortSelect">정렬:</label>
+                    <select id="sortSelect" onchange="sortResults()">
+                        <option value="relevance">관련도순</option>
+                        <option value="name">이름순</option>
+                        <option value="rating">평점순</option>
+                        <option value="price">가격순</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 검색 결과 컨테이너 -->
+            <div class="results-container" id="resultsContainer"></div>
+            
+            <!-- 검색 결과 없음 메시지 -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-content">
+                    <i class="fas fa-search-minus"></i>
+                    <h3>검색 결과를 찾을 수 없습니다</h3>
+                    <p>다른 검색어를 시도해보세요</p>
+                    <div class="search-tips">
+                        <h4>검색 팁:</h4>
+                        <ul>
+                            <li>• 다른 키워드로 검색해보세요</li>
+                            <li>• 맞춤법을 확인해보세요</li>
+                            <li>• 더 일반적인 단어를 사용해보세요</li>
+                            <li>• 카테고리 필터를 조정해보세요</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 최근 검색어 섹션 -->
+    <section class="recent-searches">
+        <div class="container">
+            <h3><i class="fas fa-history"></i> 최근 검색어</h3>
+            <div class="recent-searches-container" id="recentSearches">
+                <p class="no-recent">아직 검색 기록이 없습니다.</p>
+            </div>
+            <button class="clear-history-btn" onclick="clearSearchHistory()" style="display: none;">
+                <i class="fas fa-trash"></i> 검색 기록 삭제
+            </button>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-island-tropical"></i> 제주 여행</h3>
+                    <p>제주도의 모든 것을 한눈에<br>
+                    아름다운 제주도 여행의 시작</p>
+                </div>
+                <div class="footer-section">
+                    <h4>사이트 정보</h4>
+                    <ul>
+                        <li><a href="../index.html">홈</a></li>
+                        <li><a href="attractions.html">관광명소</a></li>
+                        <li><a href="restaurants.html">맛집</a></li>
+                        <li><a href="hotels.html">숙박</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객 지원</h4>
+                    <ul>
+                        <li><a href="info.html">여행정보</a></li>
+                        <li><a href="search.html">통합검색</a></li>
+                        <li><a href="#contact">문의하기</a></li>
+                        <li><a href="#help">도움말</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>소셜 미디어</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="페이스북"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="인스타그램"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="유튜브"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="블로그"><i class="fas fa-blog"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 제주 여행 가이드. 모든 권리 보유.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script src="../js/search.js"></script>
+</body>
+</html>

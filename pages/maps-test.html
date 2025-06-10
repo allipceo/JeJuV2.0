@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>브이월드 지도 테스트 | 제주도 관광</title>
+    
+    <!-- 기본 스타일 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        #vworld-map {
+            width: 100%;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #f44336;
+        }
+        
+        .test-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .test-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .test-card h3 {
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .test-card p {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ 브이월드 지도 테스트</h1>
+        <p class="subtitle">제주도 관광 홈페이지 - 단계별 지도 연동 테스트</p>
+        
+        <div id="vworld-map">
+            <div style="
+                width: 100%; 
+                height: 100%; 
+                background: #f1f3f4;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5f6368;
+                font-size: 16px;
+            ">
+                지도 로딩 준비 중...
+            </div>
+        </div>
+        
+        <div class="status info">
+            <strong>🧪 테스트 진행 상황:</strong> 
+            브이월드 API 연동 및 지도 표시 기능을 단계별로 테스트합니다.
+        </div>
+        
+        <div class="test-info">
+            <div class="test-card">
+                <h3>📋 테스트 목표</h3>
+                <p>브이월드 디지털 트윈 API를 활용하여 제주도 관광지 지도를 표시하고 42개 관광지 마커를 추가합니다.</p>
+            </div>
+            
+            <div class="test-card">
+                <h3>🔑 API 정보</h3>
+                <p>국토교통부 V-World API<br>
+                키: 2B038C2D-DB04-3C0E-935C-B3A873465608</p>
+            </div>
+            
+            <div class="test-card">
+                <h3>🎯 예상 결과</h3>
+                <p>제주도 중심의 고해상도 지도가 표시되고, 관광지 위치에 카테고리별 마커가 나타납니다.</p>
+            </div>
+            
+            <div class="test-card">
+                <h3>⚡ 처리 단계</h3>
+                <p>1. SDK 로드 확인<br>
+                2. 지도 컨테이너 생성<br>
+                3. 기본 지도 표시<br>
+                4. 관광지 마커 추가</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 브이월드 API SDK -->
+    <script src="https://map.vworld.kr/js/sopMapInit.js.do?version=2.0&apiKey=2B038C2D-DB04-3C0E-935C-B3A873465608"></script>
+    
+    <!-- 간단 테스트 스크립트 -->
+    <script src="../js/simple-vworld-test.js"></script>
+    
+    <!-- 추가 테스트 로그 -->
+    <script>
+        console.log('🚀 브이월드 지도 테스트 페이지 로드 완료');
+        console.log('📅 테스트 일시:', new Date().toLocaleString('ko-KR'));
+        console.log('🌐 브라우저:', navigator.userAgent);
+        
+        // 5초 후 상태 체크
+        setTimeout(() => {
+            console.log('⏰ 5초 경과 - 지도 상태 체크');
+            
+            if (typeof vworld !== 'undefined') {
+                console.log('✅ 브이월드 SDK 로드 성공');
+            } else {
+                console.log('❌ 브이월드 SDK 로드 실패');
+            }
+            
+            if (typeof window.SimpleJejuMap !== 'undefined') {
+                console.log('✅ 간단 지도 클래스 로드 성공');
+            } else {
+                console.log('❌ 간단 지도 클래스 로드 실패');
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

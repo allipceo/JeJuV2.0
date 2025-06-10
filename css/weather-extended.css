@@ -1,0 +1,316 @@
+/**
+ * 제주도 관광 홈페이지 - 확장 날씨 서비스 CSS
+ * 기상특보, 실시간 조건, 빠른 로딩 스타일
+ * 작성일: 2025.06.08
+ * 버전: 2.0
+ */
+
+/* =================================
+   기상특보 스타일
+================================= */
+.weather-alerts-container {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 193, 7, 0.1));
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.weather-alerts-container h3 {
+    color: #d73527;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-alert {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 5px solid;
+    transition: all 0.3s ease;
+}
+
+.weather-alert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.weather-alert.severe {
+    border-left-color: #e74c3c;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.05), rgba(255, 255, 255, 0.9));
+}
+
+.weather-alert.moderate {
+    border-left-color: #f39c12;
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.05), rgba(255, 255, 255, 0.9));
+}
+
+.weather-alert.low {
+    border-left-color: #27ae60;
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(255, 255, 255, 0.9));
+}
+
+.alert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.alert-type {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.alert-time {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    background: rgba(127, 140, 141, 0.1);
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.alert-description {
+    color: #2c3e50;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.no-alerts {
+    text-align: center;
+    padding: 20px;
+    color: #27ae60;
+}
+
+.no-alerts .alert-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* =================================
+   오늘 예보 스타일
+================================= */
+.today-forecast-container {
+    background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(9, 132, 227, 0.1));
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.today-forecast-container h3 {
+    color: #0984e3;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.hourly-forecast {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.hour-item {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 15px 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.hour-item:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hour-time {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.hour-icon img {
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+}
+
+.hour-temp {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0984e3;
+    margin: 5px 0;
+}
+
+.hour-desc {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+.hour-details {
+    font-size: 0.75rem;
+    color: #95a5a6;
+}
+
+/* =================================
+   실시간 조건 스타일
+================================= */
+.current-conditions-container {
+    background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(116, 185, 255, 0.1));
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.current-conditions-container h3 {
+    color: #00b894;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.conditions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.condition-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.condition-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.condition-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.condition-info {
+    flex: 1;
+}
+
+.condition-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+
+.condition-label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin: 2px 0;
+}
+
+.condition-detail {
+    font-size: 0.8rem;
+    color: #00b894;
+    font-weight: 500;
+}
+
+/* =================================
+   로딩 및 기본 상태
+================================= */
+.loading-spinner {
+    text-align: center;
+    padding: 20px;
+    color: #74b9ff;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.default-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.default-message span {
+    display: block;
+    color: #f39c12;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.default-message small {
+    color: #7f8c8d;
+}
+
+/* =================================
+   반응형 디자인
+================================= */
+@media (max-width: 768px) {
+    .weather-alerts-container,
+    .today-forecast-container,
+    .current-conditions-container {
+        padding: 20px 15px;
+        margin-bottom: 15px;
+    }
+
+    .hourly-forecast {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .hour-item {
+        padding: 10px 5px;
+    }
+
+    .hour-icon img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .conditions-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .condition-card {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .condition-icon {
+        font-size: 1.5rem;
+    }
+
+    .condition-value {
+        font-size: 1.3rem;
+    }
+}
