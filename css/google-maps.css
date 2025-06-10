@@ -321,3 +321,112 @@
         padding: 15px;
     }
 }
+
+/* 레이어 변경 컨트롤 */
+.layer-control {
+    background: var(--map-overlay);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--map-border);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 32px var(--map-shadow);
+}
+
+.layer-control h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.layer-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.layer-button {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--map-border);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.layer-button:hover {
+    background: rgba(116, 185, 255, 0.2);
+    border-color: var(--jeju-sky);
+}
+
+.layer-button.active {
+    background: linear-gradient(135deg, var(--jeju-ocean), var(--jeju-mountain));
+    color: var(--text-white);
+    border: none;
+}
+
+/* 카테고리 필터 */
+.category-control {
+    background: var(--map-overlay);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--map-border);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 32px var(--map-shadow);
+}
+
+.category-control h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.category-filters {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.category-filter {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--map-border);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.category-filter:hover {
+    background: rgba(116, 185, 255, 0.2);
+    border-color: var(--jeju-sky);
+}
+
+.category-filter.active {
+    background: linear-gradient(135deg, var(--jeju-ocean), var(--jeju-mountain));
+    color: var(--text-white);
+    border: none;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .layer-buttons,
+    .category-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .layer-button,
+    .category-filter {
+        width: 100%;
+        text-align: center;
+    }
+}
